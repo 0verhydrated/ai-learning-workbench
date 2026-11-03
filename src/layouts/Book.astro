@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import '../styles/book.css';
+interface Props { title: string; description: string; current?: string; headings?: {depth:number;slug:string;text:string}[]; }
+const {title, description, current='', headings=[]} = Astro.props;
+const lessons = (await getCollection('lessons')).sort((a,b)=>a.data.order-b.data.order);
+const parts = ['Foundations','Working with AI','Building reliably','Advanced practice'];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (path: string) => `${base}/${path}`;
+---
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#faf9f6"/><title>{title} · The Vibe Coding Book</title><link rel="icon" href={link('favicon.svg')} type="image/svg+xml"/></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="mobile-bar"><a href={link('')}>The Vibe Coding Book</a><button id="menu-toggle" aria-expanded="false" aria-controls="sidebar">Chapters ☰</button></div>
+<aside class="sidebar" id="sidebar">
+<a class="brand" href={link('')}><span class="book-mark" aria-hidden="true">v<span>_</span></span><span>The Vibe<br/>Coding Book<span class="edition">A practical field guide</span></span></a>
+<nav aria-label="Course chapters"><a class:list={['intro-link',{active:current===''}]} aria-current={current===''?'page':undefined} href={link('')}>Introduction</a>
+{parts.map((part,i)=><section class="nav-part"><h2><span>0{i+1}</span> {part}</h2><ol>{lessons.filter(l=>l.data.part===part).map(l=><li><a href={link(`lessons/${l.id}/`)} class:list={{active:current===l.id}} aria-current={current===l.id?'page':undefined}><span class="lesson-number">{String(l.data.order).padStart(2,'0')}</span><span>{l.data.title}</span></a></li>)}</ol></section>)}
+</nav><div class="sidebar-foot">Learn by building.<br/><span>Keep understanding what you ship.</span></div>
+</aside>
+<div class="page"><header class="topbar"><span>THE VIBE CODING BOOK <span class="slash">/</span> {current?'Lessons':'Introduction'}</span><a href={link('')+'#curriculum'}>Course overview <span aria-hidden="true">↗</span></a></header>
+<div class="reading-layout"><main id="main" tabindex="-1"><slot/></main><aside class="toc"><nav aria-label="On this page"><h2>ON THIS PAGE</h2>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}</nav><div class="margin-note">A note for the journey<p>AI can write the code.<br/>Understanding it is<br/>still your job.</p></div></aside></div>
+<footer class="site-footer"><span>The Vibe Coding Book</span><span>Built with Astro · Written in Markdown</span></footer></div>
+<script>
+const toggle = document.querySelector<HTMLButtonElement>('#menu-toggle');
+toggle?.addEventListener('click',()=>{const expanded = toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!expanded));document.querySelector('#sidebar')?.classList.toggle('open',!expanded);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelector('#sidebar')?.classList.remove('open');toggle?.setAttribute('aria-expanded','false');toggle?.focus();}});
+</script>
+</body></html>
