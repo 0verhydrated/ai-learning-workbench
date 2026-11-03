@@ -33,7 +33,7 @@ const koUrl = `${base}/ko/${pagePath}`;
 <a class="skip" href="#main">{t.skip}</a>
 <div class="mobile-bar"><a href={link('')}>{t.book}</a><button id="menu-toggle" aria-expanded="false" aria-controls="sidebar">{t.chapters} ☰</button></div>
 <aside class="sidebar" id="sidebar">
- <a class="brand" href={link('')}><span class="book-mark" aria-hidden="true">v<span>_</span></span><span>{lang === 'ko' ? <>바이브 코딩<br/>안내서</> : <>The Vibe<br/>Coding Book</>}<span class="edition">{t.edition}</span></span></a>
+ <a class="brand" href={link('')}><span class="book-mark" aria-hidden="true">v<span>_</span></span><span>{lang === 'ko' ? <>바이브 코딩<br/>안내서</> : <>The Vibe<br/>Coding Book</>}</span></a>
  <nav aria-label={t.courseChapters}>
   <a class:list={['intro-link',{active:section==='catalog'}]} aria-current={section==='catalog'?'page':undefined} href={link('')}>{catalogTitle}</a>
 
@@ -46,7 +46,6 @@ const koUrl = `${base}/ko/${pagePath}`;
    {(course==='vibe-coding'?parts:['chapters']).map((part,i)=><section class="nav-part"><h2>{course==='vibe-coding'?<><span>0{i+1}</span> {t.partNames[i]}</>:t.chapters}</h2><ol>{lessons.filter(l=>course!=='vibe-coding'||('part' in l.data && l.data.part===part)).map(l=><li><a href={link(lessonPath(course,l.id))} class:list={{active:current===l.id}} aria-current={current===l.id?'page':undefined}><span class="lesson-number">{String(l.data.order).padStart(2,'0')}</span><span>{l.data.title}</span></a></li>)}</ol></section>)}
   </>}
  </nav>
- <div class="sidebar-foot">{t.learn}<br/><span>{t.understand}</span></div>
 </aside>
 <div class="page">
  <header class="topbar">
@@ -66,7 +65,6 @@ const koUrl = `${base}/ko/${pagePath}`;
   <main id="main" tabindex="-1"><slot/></main>
   <aside class="toc"><nav aria-label={t.onPage}><h2>{t.onPage}</h2>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}</nav><section class="news-rail" aria-label={newsTitle}>
    <h2><a href={link('news/')} aria-current={section==='news'?'page':undefined}>{newsTitle} →</a></h2>
-   <p>{lang==='ko'?'이번 주의 도구와 스킬':'This week’s tools & skills'}</p>
    <ul>{news.stories.map(story=><li><a href={link('news/')+'#'+story.id}>{story[lang].title}</a></li>)}</ul>
   </section></aside>
  </div>
