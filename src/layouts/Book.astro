@@ -68,7 +68,7 @@ const koUrl = `${base}/ko/${pagePath}`;
    <ul>{news.stories.map(story=><li><a href={link('news/')+'#'+story.id}>{story[lang].title}</a></li>)}</ul>
   </section></aside>
  </div>
- <footer class="site-footer"><span>{t.book}</span><span>{t.footer}</span></footer>
+ <footer class="site-footer"><span>{t.book}</span></footer>
 </div>
 <script>
 const toggle = document.querySelector<HTMLButtonElement>('#menu-toggle');

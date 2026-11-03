@@ -1,6 +1,17 @@
 # The Vibe Coding Book
 
-A reading-first Astro course with Markdown lessons, practical examples, and exercises. No authentication, chatbot, backend, or API keys.
+Practical courses on AI fundamentals, AI-assisted development, agents, and reliable automation. Each course includes explanations, worked examples, and exercises in English and Korean.
+
+Read online: [English](https://0verhydrated.github.io/vibe-coding-book/) · [한국어](https://0verhydrated.github.io/vibe-coding-book/ko/)
+
+## Courses
+
+- **AI fundamentals:** models, tokens, context, inference costs, and retrieval.
+- **Build with AI:** build, test, debug, and deploy a small browser app.
+- **Agents & integrations:** agent loops, MCP, skills, identity, and memory.
+- **Automation & reliability:** cron, retries, evaluation, observability, and safe publication.
+
+AI News connects weekly practical discoveries to lessons explaining their concepts. Reading the courses requires no account or API keys.
 
 ## Local development
 
