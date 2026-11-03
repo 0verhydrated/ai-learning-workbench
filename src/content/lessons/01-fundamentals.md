@@ -8,15 +8,15 @@ duration: '12 min'
 
 ## Decide what you are responsible for
 
-Vibe coding often means describing an outcome, accepting generated changes, and judging success by whether the screen looks right. That can be useful for a disposable experiment. It becomes risky when you cannot explain what changed, reproduce a failure, or recover someone's data. A convincing interface can still discard a reading list on refresh.
+**Vibe coding** often means describing an outcome, accepting generated changes, and judging success by whether the screen looks right. That can be useful for a disposable experiment. It becomes risky when you cannot explain what changed, reproduce a failure, or recover someone's data. A convincing interface can still discard a reading list on refresh.
 
-Responsible AI-assisted development keeps the fast feedback but adds ownership. You choose the behavior, inspect changes, run checks, and decide whether the evidence supports shipping. An assistant can propose code and explain unfamiliar syntax. It cannot make your product decisions for you, and its confident explanation is not a test result.
+**Responsible AI-assisted development** keeps the fast feedback but adds ownership. You choose the behavior, inspect changes, run checks, and decide whether the evidence supports shipping. An assistant can propose code and explain unfamiliar syntax. It cannot make your product decisions for you, and **its confident explanation is not a test result**.
 
 Our project is a reading list built with vanilla HTML, CSS, and JavaScript. Readers will add titles, mark books as read, and keep their list in the same browser using localStorage. There are no accounts, shared lists, or server database. Keeping that boundary explicit makes the project small enough to understand.
 
 ## Learn the browser's division of labor
 
-HTML describes meaning and structure: a form, an input, a button, and a list. CSS controls presentation, including spacing and visible keyboard focus. JavaScript handles events, changes application state, and updates the document. The DOM is the browser's object representation of that document.
+**HTML describes meaning and structure**: a form, an input, a button, and a list. **CSS controls presentation**, including spacing and visible keyboard focus. **JavaScript handles events**, changes application state, and updates the document. **The DOM** is the browser's object representation of that document.
 
 A button that looks clickable is not necessarily a working control. Prefer a real `button` because it already supports keyboard activation. A title stored in a JavaScript array is not automatically visible. Your program must render it into the DOM. Nor is that array permanent: a page reload starts a fresh JavaScript execution.
 
@@ -33,9 +33,9 @@ This example defines an array of objects. Each object has a stable identifier, a
 
 ## Follow one change through the system
 
-When a reader submits a title, the intended flow is: receive the form event, trim and validate the input, create a book, update the array, render the list, then attempt persistence. Later lessons make failure handling explicit. For now, distinguish state in memory from saved state and from the visible page.
+When a reader submits a title, the intended flow is: receive the form event, trim and validate the input, create a book, update the array, render the list, then attempt persistence. Later lessons make failure handling explicit. For now, distinguish **state in memory** from **saved state** and from the visible page.
 
-A useful invariant is a rule that should remain true after every supported action. For this project, every book should have a nonempty title and a boolean `read` field. Identifiers should be unique within the list. These rules give both you and the assistant something more precise than "make it work."
+A useful **invariant** is a rule that should remain true after every supported action. For this project, every book should have a nonempty title and a boolean `read` field. Identifiers should be unique within the list. These rules give both you and the assistant something more precise than "make it work."
 
 Try asking for an explanation before requesting implementation:
 

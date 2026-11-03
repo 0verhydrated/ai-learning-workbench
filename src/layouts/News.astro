@@ -1,13 +1,21 @@
 ---
 import Book from './Book.astro';
+import {courseLessons,lessonPath,type CourseId} from '../courses';
 import type { Language } from '../i18n';
 interface StoryText { title: string; summary: string; whyItMatters: string; }
 interface Issue {
  updatedAt: string; windowStart: string; windowEnd: string;
- stories: { id: string; publishedAt: string; source: { name: string; url: string }; en: StoryText; ko: StoryText }[];
+ stories: { id: string; publishedAt: string; source: { name: string; url: string }; lessons: {course:string;id:string}[]; en: StoryText; ko: StoryText }[];
 }
 interface Props { lang?: Language; issue: Issue; }
 const { lang='en', issue } = Astro.props;
+const base=import.meta.env.BASE_URL.replace(/\/$/,'')+(lang==='ko'?'/ko':'');
+const related=new Map(await Promise.all(issue.stories.map(async story=>[story.id,await Promise.all(story.lessons.map(async ref=>{
+ const course=ref.course as CourseId;
+ const lesson=(await courseLessons(course,lang)).find(l=>l.id===ref.id);
+ if(!lesson) throw new Error(`Missing prerequisite lesson: ${lang}/${course}/${ref.id}`);
+ return {title:lesson.data.title,href:`${base}/${lessonPath(course,ref.id)}`};
+}))] as const)));
 const title = lang === 'ko' ? 'AI 뉴스' : 'AI News';
 const description = lang === 'ko' ? '직접 활용할 수 있는 AI 도구, 스킬, 기법을 매주 세 가지씩 소개합니다.' : 'Three useful AI tools, skills, and techniques to explore each week.';
 const updatedDate = new Intl.DateTimeFormat('en-CA', {
@@ -35,6 +43,10 @@ const headings = issue.stories.map(story => ({ depth: 2, slug: story.id, text: s
    <p>{story[lang].summary}</p>
    <p class="news-source"><a href={story.source.url}>[{index + 1}] {story.source.name}</a> <span>· {lang === 'ko' ? '원문 읽기' : 'Read the original'}</span></p>
    <p class="news-perspective"><strong>{lang === 'ko' ? '편집자 해설 — 이렇게 활용해 보세요' : 'Editorial perspective — try it in practice'}</strong><br/>{story[lang].whyItMatters}</p>
+   <nav class="story-lessons" aria-label={lang==='ko'?'이 소식을 이해하는 데 필요한 강의':'Understand this story'}>
+    <h3>{lang==='ko'?'이 소식을 이해하는 데 필요한 강의':'Understand this story'}</h3>
+    <ul>{related.get(story.id)?.map(lesson=><li><a href={lesson.href}>{lesson.title} →</a></li>)}</ul>
+   </nav>
   </article>)}
  </div>
 </Book>

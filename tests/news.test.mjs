@@ -38,7 +38,7 @@ for (const lang of ['en', 'ko']) {
  test(`${lang} news is a distinct section with reciprocal language navigation`, () => {
   const html = page(lang);
   assert.match(html, new RegExp(`<html lang="${lang}">`));
-  const sidebar = html.match(/<aside class="sidebar"[\s\S]*?<\/aside>/)[0];
+  const sidebar = html.match(/<aside class="toc"[\s\S]*?<\/aside>/)[0];
   const active = [...sidebar.matchAll(/<a\b[^>]*aria-current="page"[^>]*>/g)];
   assert.equal(active.length, 1);
   assert.ok(active[0][0].includes(`href="${base}/${lang === 'ko' ? 'ko/' : ''}news/"`));

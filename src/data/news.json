@@ -6,7 +6,10 @@
     {
       "id": "mcp-oauth-triage-skill",
       "publishedAt": "2026-10-29",
-      "source": {"name": "Claude Skills v2.14.3 release notes", "url": "https://github.com/alirezarezvani/claude-skills/releases/tag/v2.14.3"},
+      "source": {
+        "name": "Claude Skills v2.14.3 release notes",
+        "url": "https://github.com/alirezarezvani/claude-skills/releases/tag/v2.14.3"
+      },
       "en": {
         "title": "A troubleshooting skill for MCP connectors that lose authentication",
         "summary": "Claude Skills v2.14.3 adds mcp-oauth-triage for connectors that authenticated successfully but now return 401 errors. Its scripts classify token-record and log problems, suggest a next diagnostic probe, and include six replayable fixtures. The release says they use only Python's standard library and make no network calls. This is a debugging aid, not automatic repair.",
@@ -16,12 +19,25 @@
         "title": "인증이 끊기는 MCP 연결을 진단하는 스킬",
         "summary": "Claude Skills v2.14.3에 인증에 성공한 뒤 401 오류가 발생하는 연결을 위한 mcp-oauth-triage가 추가됐습니다. 스크립트가 토큰 기록과 로그의 문제를 분류하고 다음 진단 단계를 제안하며, 재실행할 수 있는 예제 데이터 여섯 가지를 제공합니다. 릴리스 노트에 따르면 Python 표준 라이브러리만 사용하고 네트워크를 호출하지 않습니다. 자동 복구가 아니라 원인을 조사하는 도구입니다.",
         "whyItMatters": "버전이 고정된 릴리스를 검토하고 예제부터 실행해 만료, 토큰 교체, 연결 대상 불일치를 비교해 보세요. 실제 토큰이나 민감 정보가 포함된 로그를 AI 대화에 붙여 넣지 마세요. 이번에는 릴리스 노트를 검토했으며 스크립트를 직접 실행한 것은 아닙니다."
-      }
+      },
+      "lessons": [
+        {
+          "course": "agents-tools",
+          "id": "02-mcp"
+        },
+        {
+          "course": "agents-tools",
+          "id": "03-skills"
+        }
+      ]
     },
     {
       "id": "qbash-reusable-tasks-mcp",
       "publishedAt": "2026-10-29",
-      "source": {"name": "qbash official MCP release", "url": "https://qbash.com/blog/release-notes-official-mcp-server"},
+      "source": {
+        "name": "qbash official MCP release",
+        "url": "https://qbash.com/blog/release-notes-official-mcp-server"
+      },
       "en": {
         "title": "Connect reusable Python tasks to an AI client through qbash MCP",
         "summary": "qbash's official MCP server lets AI clients build and run hosted Python Tasks, share Markdown memories, and use approved app connectors. The useful pattern is to put repeatable computation in a reviewed task, then let an agent invoke it instead of improvising the same procedure every time. Account access remains a separate authorization decision.",
@@ -31,12 +47,29 @@
         "title": "qbash MCP로 반복해서 쓸 Python 작업을 AI에 연결하기",
         "summary": "qbash의 공식 MCP 서버를 사용하면 AI 클라이언트에서 호스팅된 Python 작업을 만들고 실행하며, Markdown 메모리를 공유하고 승인된 앱 연결을 사용할 수 있습니다. 반복 계산을 검토된 작업으로 만들어 두고 에이전트가 호출하게 하면 같은 절차를 매번 새로 구성하지 않아도 됩니다. 계정 접근 권한은 별도로 승인해야 합니다.",
         "whyItMatters": "민감하지 않은 CSV 요약을 예로 들어 입력과 출력을 정하고 계산을 따로 테스트한 뒤 필요한 작업만 연결해 보세요. 실제 계정을 사용하기 전에는 호스팅 비용과 앱 접근 권한을 확인해야 합니다. 이번에는 서비스를 연결하거나 직접 테스트하지 않았습니다."
-      }
+      },
+      "lessons": [
+        {
+          "course": "agents-tools",
+          "id": "01-agent-loops"
+        },
+        {
+          "course": "agents-tools",
+          "id": "02-mcp"
+        },
+        {
+          "course": "automation",
+          "id": "02-reliable-workflows"
+        }
+      ]
     },
     {
       "id": "dbt-skills-evaluation-method",
       "publishedAt": "2026-10-30",
-      "source": {"name": "dbt Developer Blog — skills evaluation", "url": "https://docs.getdbt.com/blog/do-coding-agents-still-need-dbt-skills"},
+      "source": {
+        "name": "dbt Developer Blog — skills evaluation",
+        "url": "https://docs.getdbt.com/blog/do-coding-agents-still-need-dbt-skills"
+      },
       "en": {
         "title": "Test whether a skill helps by changing the data, not just reading the answer",
         "summary": "A dbt engineering write-up evaluates coding agents on evolving Formula 1 data tasks. After each ticket, its harness injects changes such as late data and duplicates, rebuilds the project, and checks rows against a clean answer key. The author discloses shared-note leakage between some runs, so this is not a universal ranking of skills.",
@@ -46,7 +79,17 @@
         "title": "스킬의 효과를 문체 대신 바뀐 데이터로 확인하기",
         "summary": "dbt의 개발 글은 변화하는 Formula 1 데이터 작업으로 코딩 에이전트를 평가합니다. 각 작업 뒤에 지연 도착한 데이터나 중복 행 등을 넣고 프로젝트를 다시 빌드한 다음, 별도의 정답 데이터와 행 단위로 비교합니다. 일부 실행 사이에 공유 메모가 유출됐다는 한계도 공개합니다. 따라서 모든 스킬에 통하는 순위로 받아들여서는 안 됩니다.",
         "whyItMatters": "같은 미공개 평가 작업에서 스킬 사용 여부를 비교하고 실행별 메모를 분리하며, 첫 성공 뒤에도 입력을 바꿔 보세요. 보고서 스킬이라면 중복 기록과 누락 필드를 넣어, 자연스러운 문장뿐 아니라 기록의 누락 여부와 사실 정확성까지 확인합니다."
-      }
+      },
+      "lessons": [
+        {
+          "course": "agents-tools",
+          "id": "03-skills"
+        },
+        {
+          "course": "automation",
+          "id": "03-evaluation-observability"
+        }
+      ]
     }
   ]
 }

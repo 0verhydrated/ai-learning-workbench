@@ -3,6 +3,8 @@ import { courses, courseIds, courseLessons, lessonPath, type CourseId } from '..
 import { ui, parts, type Language } from '../i18n';
 import '../styles/book.css';
 import '../styles/courses.css';
+import '../styles/reading.css';
+import news from '../data/news.json';
 interface Props { title: string; description: string; current?: string; section?: 'book' | 'news' | 'catalog'; course?: CourseId; lang?: Language; headings?: {depth:number;slug:string;text:string}[]; }
 const {title, description, current='', section='book', course='vibe-coding', lang='en', headings=[]} = Astro.props;
 const newsTitle = lang === 'ko' ? 'AI 뉴스' : 'AI News';
@@ -34,7 +36,7 @@ const koUrl = `${base}/ko/${pagePath}`;
  <a class="brand" href={link('')}><span class="book-mark" aria-hidden="true">v<span>_</span></span><span>{lang === 'ko' ? <>바이브 코딩<br/>안내서</> : <>The Vibe<br/>Coding Book</>}<span class="edition">{t.edition}</span></span></a>
  <nav aria-label={t.courseChapters}>
   <a class:list={['intro-link',{active:section==='catalog'}]} aria-current={section==='catalog'?'page':undefined} href={link('')}>{catalogTitle}</a>
-  <a class:list={['intro-link',{active:section==='news'}]} aria-current={section==='news'?'page':undefined} href={link('news/')}>{newsTitle}</a>
+
   <details class="course-picker" open={section!=='book'}>
    <summary>{lang==='ko'?'과정 선택':'Choose a course'}{section==='book' && <span>{courseTitle}</span>}</summary>
    <nav aria-label={lang==='ko'?'과정 선택':'Course selection'}>{courseIds.map(id=><a href={link(`courses/${id}/`)} aria-current={section==='book'&&course===id?'true':undefined}>{courses[id][lang].title}</a>)}</nav>
@@ -62,7 +64,11 @@ const koUrl = `${base}/ko/${pagePath}`;
  </header>
  <div class="reading-layout">
   <main id="main" tabindex="-1"><slot/></main>
-  <aside class="toc"><nav aria-label={t.onPage}><h2>{t.onPage}</h2>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}</nav><div class="margin-note">{t.journey}<p>{t.reminder}</p></div></aside>
+  <aside class="toc"><nav aria-label={t.onPage}><h2>{t.onPage}</h2>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}</nav><section class="news-rail" aria-label={newsTitle}>
+   <h2><a href={link('news/')} aria-current={section==='news'?'page':undefined}>{newsTitle} →</a></h2>
+   <p>{lang==='ko'?'이번 주의 도구와 스킬':'This week’s tools & skills'}</p>
+   <ul>{news.stories.map(story=><li><a href={link('news/')+'#'+story.id}>{story[lang].title}</a></li>)}</ul>
+  </section></aside>
  </div>
  <footer class="site-footer"><span>{t.book}</span><span>{t.footer}</span></footer>
 </div>

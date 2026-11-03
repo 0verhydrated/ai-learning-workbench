@@ -6,7 +6,7 @@ Publish exactly three useful AI tools, skills, techniques, or technology updates
 
 The scheduler is a Hermes job on the coding profile, not a GitHub-hosted news service. This computer must be awake, connected to the internet, and running the Hermes gateway. GitHub authentication and the model/search provider must remain available. A missed or failed run must not be represented as a successful update. The existing issue remains visible with its actual update date.
 
-The user approved recurring news publication on 2026-11-03. The coding-profile job is enabled for Sunday 08:00 Asia/Seoul. Authorization covers news content only, not course, application, dependency, workflow, or credential changes. Repository visibility remains public.
+The user approved recurring news publication on 2026-11-03. The coding-profile job is enabled for Sunday 08:00 Asia/Seoul. Authorization now covers news plus necessary bilingual prerequisite lessons/courses. Prefer existing lessons; new course registration may make minimal additive changes to src/courses.ts and src/content.config.ts. Unrelated application, dependency, workflow, credential, and permission changes remain out of scope. Repository visibility remains public.
 
 ## Selection and verification
 
@@ -19,11 +19,11 @@ The user approved recurring news publication on 2026-11-03. The coding-profile j
 
 ## Data contract
 
-Only `src/data/news.json` changes during routine updates. Keep exactly these fields:
+Routine updates change `src/data/news.json`; add prerequisite teaching content only when an actual coverage gap exists. Keep these fields:
 
 - `updatedAt`: actual ISO timestamp with offset.
 - `windowStart`, `windowEnd`: inclusive coverage dates (`YYYY-MM-DD`).
-- `stories`: exactly three objects with unique stable `id`, `publishedAt` (the source's publication date), `source: {name, url}`, and `en` / `ko`, each containing `title`, `summary`, and `whyItMatters`.
+- `stories`: exactly three objects with unique stable `id`, `publishedAt` (the source's publication date), `source: {name, url}`, and `en` / `ko`, each containing `title`, `summary`, and `whyItMatters`. Each story also requires `lessons`: 1–3 unique `{course, id}` references. Read the corresponding English and Korean lessons to ensure they explain the concepts; do not match by title alone. The renderer derives localized titles and URLs and fails the build for missing lessons.
 
 The source link beside each summary provides attribution. `whyItMatters` is explicitly editorial interpretation, not an additional unqualified claim from the source. Previous editions remain available in Git history.
 
@@ -32,10 +32,10 @@ The source link beside each summary provides attribution. `whyItMatters` is expl
 - Load the GitHub and grounded-citations skills; check authentication without exposing tokens.
 - Verify origin is `https://github.com/0verhydrated/vibe-coding-book.git`. Fetch `origin/main` without changing the user's working branch.
 - Work in a disposable detached Git worktree based on `origin/main`, under the active profile's scratch directory. Never reset, stash, clean, or commit the user's working tree.
-- Edit only `src/data/news.json`. Keep research notes and evidence outside the repository in profile-local storage.
+- Edit news data and, only if needed, add bilingual lessons in `src/content/academy/{en,ko}/<course>/`. New lessons need definitions, meaningful examples, limitations, exercises/solutions, primary sources, and selective bold emphasis. Verify executable examples. Prefer existing courses; a new course needs a coherent learning goal, prerequisites and outcomes, with minimal additive registration in `src/courses.ts` and `src/content.config.ts`. Preserve existing IDs and URLs. Keep research notes outside the repository.
 - Run `npm ci`, `npm run check`, `npm run build`, `npm test`, and `git diff --check` in that worktree. Inspect the generated English and Korean news pages. Do not weaken failing checks to publish.
-- Confirm the diff contains only `src/data/news.json`, stage that path explicitly, and commit with a descriptive weekly date. Push `HEAD:main` without force only when the user has approved recurring news publication. If the remote advanced and rejects the push, stop and report; do not overwrite it.
-- Read back the remote commit SHA. Find the GitHub Actions run for that exact SHA, wait for its result, and verify both live news pages contain the new story titles and update timestamp. A successful push alone is not a completed update.
+- Confirm the diff contains only news, necessary new bilingual teaching content, and minimal additive course registration; stage each approved path explicitly, and commit with a descriptive weekly date. Push `HEAD:main` without force only when the user has approved recurring news publication. If the remote advanced and rejects the push, stop and report; do not overwrite it.
+- Read back the remote commit SHA. Find the GitHub Actions run for that exact SHA, wait for its result, and verify both live news pages contain the new story titles and update timestamp. Follow every prerequisite link in its page language, and verify every new lesson live. Publish news and its prerequisites in one commit; never link to a lesson planned for a later update. A successful push alone is not a completed update.
 - Report the three headlines, coverage range, deployment URL and status. If anything fails, state the blocker and which edition is still live. Do not claim success just because a tool call succeeded.
 - Remove only the disposable worktree created for this run after success. If it contains needed uncommitted recovery work, leave it and report its path.
 
