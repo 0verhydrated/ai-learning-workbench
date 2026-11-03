@@ -1,31 +1,68 @@
 ---
 import { getCollection } from 'astro:content';
+import { ui, parts, type Language } from '../i18n';
 import '../styles/book.css';
-interface Props { title: string; description: string; current?: string; headings?: {depth:number;slug:string;text:string}[]; }
-const {title, description, current='', headings=[]} = Astro.props;
-const lessons = (await getCollection('lessons')).sort((a,b)=>a.data.order-b.data.order);
-const parts = ['Foundations','Working with AI','Building reliably','Advanced practice'];
+interface Props { title: string; description: string; current?: string; lang?: Language; headings?: {depth:number;slug:string;text:string}[]; }
+const {title, description, current='', lang='en', headings=[]} = Astro.props;
+const t = ui[lang];
+const lessons = (await getCollection(lang === 'ko' ? 'korean' : 'lessons')).sort((a,b)=>a.data.order-b.data.order);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const link = (path: string) => `${base}/${path}`;
+const link = (path: string) => `${base}/${lang === 'ko' ? 'ko/' : ''}${path}`;
+const pagePath = current ? `lessons/${current}/` : '';
+const enUrl = `${base}/${pagePath}`;
+const koUrl = `${base}/ko/${pagePath}`;
 ---
 <!doctype html>
-<html lang="en">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#faf9f6"/><title>{title} · The Vibe Coding Book</title><link rel="icon" href={link('favicon.svg')} type="image/svg+xml"/></head>
+<html lang={lang}>
+<head>
+ <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+ <meta name="description" content={description}/><meta name="theme-color" content="#faf9f6"/>
+ <title>{title} · {t.book}</title><link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml"/>
+ <link rel="canonical" href={new URL(lang === 'ko' ? koUrl : enUrl, Astro.site)}/>
+ <link rel="alternate" hreflang="en" href={new URL(enUrl, Astro.site)}/>
+ <link rel="alternate" hreflang="ko" href={new URL(koUrl, Astro.site)}/>
+ <link rel="alternate" hreflang="x-default" href={new URL(enUrl, Astro.site)}/>
+</head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<div class="mobile-bar"><a href={link('')}>The Vibe Coding Book</a><button id="menu-toggle" aria-expanded="false" aria-controls="sidebar">Chapters ☰</button></div>
+<a class="skip" href="#main">{t.skip}</a>
+<div class="mobile-bar"><a href={link('')}>{t.book}</a><button id="menu-toggle" aria-expanded="false" aria-controls="sidebar">{t.chapters} ☰</button></div>
 <aside class="sidebar" id="sidebar">
-<a class="brand" href={link('')}><span class="book-mark" aria-hidden="true">v<span>_</span></span><span>The Vibe<br/>Coding Book<span class="edition">A practical field guide</span></span></a>
-<nav aria-label="Course chapters"><a class:list={['intro-link',{active:current===''}]} aria-current={current===''?'page':undefined} href={link('')}>Introduction</a>
-{parts.map((part,i)=><section class="nav-part"><h2><span>0{i+1}</span> {part}</h2><ol>{lessons.filter(l=>l.data.part===part).map(l=><li><a href={link(`lessons/${l.id}/`)} class:list={{active:current===l.id}} aria-current={current===l.id?'page':undefined}><span class="lesson-number">{String(l.data.order).padStart(2,'0')}</span><span>{l.data.title}</span></a></li>)}</ol></section>)}
-</nav><div class="sidebar-foot">Learn by building.<br/><span>Keep understanding what you ship.</span></div>
+ <a class="brand" href={link('')}><span class="book-mark" aria-hidden="true">v<span>_</span></span><span>{lang === 'ko' ? <>바이브 코딩<br/>안내서</> : <>The Vibe<br/>Coding Book</>}<span class="edition">{t.edition}</span></span></a>
+ <nav aria-label={t.courseChapters}>
+  <a class:list={['intro-link',{active:current===''}]} aria-current={current===''?'page':undefined} href={link('')}>{t.intro}</a>
+  {parts.map((part,i)=><section class="nav-part"><h2><span>0{i+1}</span> {t.partNames[i]}</h2><ol>{lessons.filter(l=>l.data.part===part).map(l=><li><a href={link(`lessons/${l.id}/`)} class:list={{active:current===l.id}} aria-current={current===l.id?'page':undefined}><span class="lesson-number">{String(l.data.order).padStart(2,'0')}</span><span>{l.data.title}</span></a></li>)}</ol></section>)}
+ </nav>
+ <div class="sidebar-foot">{t.learn}<br/><span>{t.understand}</span></div>
 </aside>
-<div class="page"><header class="topbar"><span>THE VIBE CODING BOOK <span class="slash">/</span> {current?'Lessons':'Introduction'}</span><a href={link('')+'#curriculum'}>Course overview <span aria-hidden="true">↗</span></a></header>
-<div class="reading-layout"><main id="main" tabindex="-1"><slot/></main><aside class="toc"><nav aria-label="On this page"><h2>ON THIS PAGE</h2>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}</nav><div class="margin-note">A note for the journey<p>AI can write the code.<br/>Understanding it is<br/>still your job.</p></div></aside></div>
-<footer class="site-footer"><span>The Vibe Coding Book</span><span>Built with Astro · Written in Markdown</span></footer></div>
+<div class="page">
+ <header class="topbar">
+  <span class="breadcrumb">{t.book} <span class="slash">/</span> {current?t.lessons:t.intro}</span>
+  <div class="topbar-actions">
+   <a class="overview-link" href={link('')+'#curriculum'}>{t.overview} <span aria-hidden="true">↗</span></a>
+   <details class="language-menu">
+    <summary>{t.language} <span lang={lang}>{lang === 'ko' ? '한국어' : 'English'}</span> <span aria-hidden="true">⌄</span></summary>
+    <nav aria-label={t.languageLabel}>
+     <a href={enUrl} lang="en" hreflang="en" aria-current={lang === 'en' ? 'true' : undefined}>English {lang === 'en' && <span aria-hidden="true">✓</span>}</a>
+     <a href={koUrl} lang="ko" hreflang="ko" aria-current={lang === 'ko' ? 'true' : undefined}>한국어 {lang === 'ko' && <span aria-hidden="true">✓</span>}</a>
+    </nav>
+   </details>
+  </div>
+ </header>
+ <div class="reading-layout">
+  <main id="main" tabindex="-1"><slot/></main>
+  <aside class="toc"><nav aria-label={t.onPage}><h2>{t.onPage}</h2>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}</nav><div class="margin-note">{t.journey}<p>{t.reminder}</p></div></aside>
+ </div>
+ <footer class="site-footer"><span>{t.book}</span><span>{t.footer}</span></footer>
+</div>
 <script>
 const toggle = document.querySelector<HTMLButtonElement>('#menu-toggle');
+const languageMenu = document.querySelector<HTMLDetailsElement>('.language-menu');
 toggle?.addEventListener('click',()=>{const expanded = toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!expanded));document.querySelector('#sidebar')?.classList.toggle('open',!expanded);});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelector('#sidebar')?.classList.remove('open');toggle?.setAttribute('aria-expanded','false');toggle?.focus();}});
+document.addEventListener('keydown',e=>{
+ if(e.key!=='Escape') return;
+ if(languageMenu?.open){languageMenu.open=false;languageMenu.querySelector('summary')?.focus();}
+ else if(toggle?.getAttribute('aria-expanded')==='true'){document.querySelector('#sidebar')?.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.focus();}
+});
+document.addEventListener('click',e=>{if(languageMenu?.open && e.target instanceof Node && !languageMenu.contains(e.target)) languageMenu.open=false;});
 </script>
 </body></html>

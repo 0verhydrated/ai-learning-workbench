@@ -1,0 +1,22 @@
+---
+import {render, type CollectionEntry} from 'astro:content';
+import Book from './Book.astro';
+import {ui, parts, type Language} from '../i18n';
+type Entry = CollectionEntry<'lessons'> | CollectionEntry<'korean'>;
+interface Props {lesson: Entry; prev?: Entry; next?: Entry; lang?: Language;}
+const {lesson,prev,next,lang='en'}=Astro.props;
+const {Content,headings}=await render(lesson);
+const t=ui[lang];
+const base=import.meta.env.BASE_URL.replace(/\/$/,'')+(lang==='ko'?'/ko':'');
+---
+<Book lang={lang} title={lesson.data.title} description={lesson.data.description} current={lesson.id} headings={headings}>
+ <div class="eyebrow">{t.partNames[parts.indexOf(lesson.data.part)]} <span> / </span> {t.lesson} {String(lesson.data.order).padStart(2,'0')}</div>
+ <h1 class="lesson-title">{lesson.data.title}</h1>
+ <p class="lead">{lesson.data.description}</p>
+ <div class="lesson-meta">{lesson.data.duration} {t.reading} <span>·</span> {t.exercise}</div>
+ <article class="prose"><Content/></article>
+ <nav class="pagination" aria-label={t.navigation}>
+  <a href={prev?`${base}/lessons/${prev.id}/`:`${base}/`}><small>{t.previous}</small>← {prev?.data.title??t.intro}</a>
+  {next?<a href={`${base}/lessons/${next.id}/`}><small>{t.next}</small>{next.data.title} →</a>:<a href={`${base}/#curriculum`}><small>{t.complete}</small>{t.return} →</a>}
+ </nav>
+</Book>

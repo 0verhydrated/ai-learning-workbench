@@ -1,0 +1,9 @@
+---
+import {getCollection} from 'astro:content';
+import Lesson from '../../../layouts/Lesson.astro';
+export async function getStaticPaths(){
+ const lessons=(await getCollection('korean')).sort((a,b)=>a.data.order-b.data.order);
+ return lessons.map((lesson,i)=>({params:{id:lesson.id},props:{lesson,prev:lessons[i-1],next:lessons[i+1]}}));
+}
+---
+<Lesson {...Astro.props} lang="ko"/>
