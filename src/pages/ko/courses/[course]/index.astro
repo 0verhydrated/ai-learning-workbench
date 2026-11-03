@@ -1,0 +1,7 @@
+---
+import Course from '../../../../layouts/Course.astro';
+import {courseIds} from '../../../../courses';
+export function getStaticPaths(){return courseIds.filter(course=>course!=='vibe-coding').map(course=>({params:{course},props:{course}}));}
+const {course}=Astro.props;
+---
+<Course course={course} lang="ko"/>

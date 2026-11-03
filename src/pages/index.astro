@@ -1,22 +1,4 @@
 ---
-import Book from '../layouts/Book.astro';
-import {getCollection} from 'astro:content';
-const lessons=(await getCollection('lessons')).sort((a,b)=>a.data.order-b.data.order);
-const parts=['Foundations','Working with AI','Building reliably','Advanced practice'];
-const descriptions=['Understand the tools. Make your first page.','Give useful direction. Learn to investigate.','Work with tests, data, and security.','Manage larger changes. Ship with confidence.'];
-const base=import.meta.env.BASE_URL.replace(/\/$/,'');
-const headings=[{depth:2,slug:'what-youll-learn',text:'What you’ll learn'},{depth:2,slug:'how-to-use-this-book',text:'How to use this book'},{depth:2,slug:'curriculum',text:'The curriculum'},{depth:2,slug:'before-you-start',text:'Before you start'}];
+import Catalog from '../layouts/Catalog.astro';
 ---
-<Book title="Introduction" description="A practical, independent guide to AI-assisted programming, from your first prompt to a tested, deployed project." headings={headings}>
-<div class="eyebrow">INTRODUCTION <span>•</span> START HERE</div>
-<h1>Vibe coding,<br/><em>with understanding.</em></h1>
-<p class="lead">Turn an idea into working software with AI—<br class="desktop-break"/>and learn to understand, test, and improve what you build.</p>
-<p>You don’t need to know everything before you begin. But you do need a way to tell whether the code actually works. This book teaches both: how to build with AI, and how to stay in control of the result.</p>
-<div class="course-meta"><span>12 hands-on lessons</span><span>Beginner → Advanced</span><span>One project, built step by step</span></div>
-<a class="start-link" href={`${base}/lessons/01-fundamentals/`}>Start with the fundamentals <span aria-hidden="true">→</span></a>
-<section id="what-youll-learn"><h2>What you’ll learn</h2><p>We’ll build a small reading-list app: add books, mark them as read, and save them in your browser. A deliberately small project leaves room to learn the parts that matter.</p><ul class="outcomes"><li>Turn a vague idea into a clear, testable request.</li><li>Read generated code and make focused changes.</li><li>Find bugs using evidence, not repeated guesses.</li><li>Use tests, security checks, and version control before shipping.</li></ul></section>
-<section id="how-to-use-this-book"><h2>How to use this book</h2><p>Read in order if you’re new to programming. If you already build software, jump to a topic using the chapter list. Each lesson pairs an explanation with examples you can try and an exercise to check your understanding.</p><div class="note"><strong>A working result is not the same as a reliable result.</strong><p>“Vibe coding” often means generating code without closely reading it. We start with that fast feedback loop, then develop a more deliberate AI-assisted workflow. Treat every generated change as a proposal—not a guarantee.</p></div></section>
-<section id="curriculum"><div class="section-heading"><h2>The curriculum</h2><span>Four parts. A practical progression.</span></div><div class="curriculum">{parts.map((part,i)=><section class="curriculum-part"><div class="part-title"><span>PART 0{i+1}</span><h3>{part}</h3><p>{descriptions[i]}</p></div><ol>{lessons.filter(l=>l.data.part===part).map(l=><li><a href={`${base}/lessons/${l.id}/`}><span class="lesson-number">{String(l.data.order).padStart(2,'0')}</span><span>{l.data.title}</span><span class="duration">{l.data.duration}</span><span aria-hidden="true">↗</span></a></li>)}</ol></section>)}</div></section>
-<section id="before-you-start"><h2>Before you start</h2><p>Bring a computer, a modern browser, and a willingness to inspect what you build. The setup lesson walks through a code editor, Node.js, and Git. Use an AI assistant you already have access to; a paid subscription is not required by this course, though providers may have usage limits.</p><p>No account is needed to read this book. Your practice project runs locally, and the early lessons don’t require a backend or API keys.</p></section>
-<nav class="pagination" aria-label="Lesson navigation"><span>Ready when you are.</span><a href={`${base}/lessons/01-fundamentals/`}><small>NEXT LESSON</small>What is vibe coding? <span aria-hidden="true">→</span></a></nav>
-</Book>
+<Catalog/>

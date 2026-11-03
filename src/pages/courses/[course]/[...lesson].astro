@@ -1,0 +1,14 @@
+---
+import {getCollection} from 'astro:content';
+import AcademyLesson from '../../../layouts/AcademyLesson.astro';
+export async function getStaticPaths(){
+ const entries=(await getCollection('academy')).filter(l=>l.data.lang==='en').sort((a,b)=>a.data.order-b.data.order);
+ return entries.map(lesson=>{
+  const siblings=entries.filter(l=>l.data.course===lesson.data.course);
+  const i=siblings.findIndex(l=>l.id===lesson.id);
+  return {params:{course:lesson.data.course,lesson:lesson.id.split('/').at(-1)},props:{lesson,prev:siblings[i-1],next:siblings[i+1]}};
+ });
+}
+const {lesson,prev,next}=Astro.props;
+---
+<AcademyLesson lesson={lesson} prev={prev} next={next}/>

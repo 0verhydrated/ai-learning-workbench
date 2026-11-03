@@ -1,0 +1,33 @@
+---
+import Book from './Book.astro';
+import {courses, courseIds, courseLessons, lessonPath} from '../courses';
+import type {Language} from '../i18n';
+interface Props {lang?:Language;}
+const {lang='en'}=Astro.props;
+const ko=lang==='ko';
+const base=import.meta.env.BASE_URL.replace(/\/$/,'')+(ko?'/ko':'');
+const entries=await Promise.all(courseIds.map(async id=>({id,...courses[id][lang],lessons:await courseLessons(id,lang)})));
+const headings=[{depth:2,slug:'curriculum',text:ko?'과정 선택':'Choose your course'},{depth:2,slug:'learning-path',text:ko?'어디서 시작할까요?':'Where should I start?'}];
+---
+<Book lang={lang} section="catalog" title={ko?'전체 과정':'All courses'} description={ko?'AI의 원리부터 에이전트, 앱 개발, 안정적인 자동화까지 예제와 실습으로 배우세요.':'Practical courses on AI systems, agents, software development, and reliable automation.'} headings={headings}>
+ <div class="eyebrow">{ko?'AI 이해 · 실습 · 운영':'UNDERSTAND · BUILD · OPERATE'}</div>
+ <h1>{ko?<>바이브 코딩과<br/><em>AI 시스템 이해하기</em></>:<>Vibe coding<br/><em>and the systems behind it.</em></>}</h1>
+ <p class="lead">{ko?'프롬프트를 넘어, AI가 정보를 처리하고 도구를 사용하며 반복 작업을 수행하는 방식을 배웁니다.':'Go beyond prompting. Learn how AI processes information, uses tools, and runs repeatable work.'}</p>
+ <p>{ko?'모든 과정을 순서대로 읽을 필요는 없습니다. 지금 해결하려는 문제에 맞는 과정을 선택하세요. 설명과 예제, 직접 해 볼 실습을 함께 제공합니다.':'Choose a course for the problem you want to solve. Each combines explanations, worked examples, and exercises—not just terms to memorize.'}</p>
+ <section id="curriculum" class="course-catalog">
+  <h2>{headings[0].text}</h2>
+  {entries.map((course,i)=><section class="course-row">
+   <span class="course-index" aria-hidden="true">{String(i+1).padStart(2,'0')}</span>
+   <div><p class="course-level">{course.level} · {course.lessons.length}{ko?'개 강의':' lessons'}</p>
+    <h3><a href={`${base}/courses/${course.id}/`}>{course.title} <span aria-hidden="true">↗</span></a></h3>
+    <p>{course.description}</p><p class="course-topics">{course.topics}</p>
+    <div class="course-actions"><a href={`${base}/courses/${course.id}/`}>{ko?'과정 살펴보기':'View course'}</a>{course.lessons[0]&&<a href={`${base}/${lessonPath(course.id,course.lessons[0].id)}`}>{ko?'첫 강의 읽기':'Read first lesson'} →</a>}</div>
+   </div>
+  </section>)}
+ </section>
+ <section id="learning-path"><h2>{headings[1].text}</h2>
+  <p>{ko?'AI가 낯설다면 ‘AI 기초 이해하기’부터 시작하세요. 앱을 바로 만들어 보고 싶다면 ‘AI와 함께 앱 만들기’를 선택할 수 있습니다. MCP와 스킬을 연결하기 전에는 모델과 맥락을, 자동 작업을 운영하기 전에는 에이전트의 권한과 도구 호출을 먼저 이해하는 편이 좋습니다.':'New to AI? Start with AI fundamentals. Want to make something now? Build with AI starts with a small browser app. Before connecting MCP servers or skills, understand models and context; before scheduling autonomous work, understand tool permissions and agent loops.'}</p>
+  <p>{ko?'실습은 가능한 한 로컬에서 실행하도록 구성했습니다. 외부 서비스에 연결하거나 비용이 발생하는 호출, 공개 배포가 필요한 경우에는 별도로 설명합니다.':'Examples favor local, offline practice. Lessons distinguish illustrative designs from executed programs and explain when a real integration would require an account, permissions, or paid API calls.'}</p>
+  <p><a href={`${base}/news/`}>{ko?'AI 뉴스에서 이번 주의 유용한 도구와 스킬 살펴보기':'Explore this week’s useful tools and skills in AI News'} →</a></p>
+ </section>
+</Book>

@@ -1,0 +1,18 @@
+---
+import Book from './Book.astro';
+import {courses,courseLessons,lessonPath,type CourseId} from '../courses';
+import type {Language} from '../i18n';
+interface Props {course:CourseId;lang:Language;}
+const {course,lang}=Astro.props;
+const info=courses[course][lang];
+const lessons=await courseLessons(course,lang);
+const ko=lang==='ko';
+const base=import.meta.env.BASE_URL.replace(/\/$/,'')+(ko?'/ko':'');
+const headings=[{depth:2,slug:'outcome',text:ko?'학습 목표':'What you will be able to do'},{depth:2,slug:'curriculum',text:ko?'강의 목록':'Lessons'}];
+---
+<Book title={info.title} description={info.description} course={course} lang={lang} headings={headings}>
+ <div class="eyebrow">{info.level}</div><h1 class="lesson-title">{info.title}</h1><p class="lead">{info.description}</p>
+ <section id="outcome"><h2>{headings[0].text}</h2><p>{info.outcome}</p><p><strong>{ko?'미리 알아 두면 좋은 것':'Before you begin'}:</strong> {info.prerequisite}</p></section>
+ <section id="curriculum"><h2>{headings[1].text}</h2><ol class="course-lessons">{lessons.map(lesson=><li><a href={`${base}/${lessonPath(course,lesson.id)}`}><span class="lesson-number">{String(lesson.data.order).padStart(2,'0')}</span><span><strong>{lesson.data.title}</strong><span class="lesson-description">{lesson.data.description}</span><span class="lesson-duration">{lesson.data.duration}</span></span><span aria-hidden="true">→</span></a></li>)}</ol></section>
+ <p><a href={`${base}/`}>← {ko?'다른 과정 살펴보기':'Explore other courses'}</a></p>
+</Book>

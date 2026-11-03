@@ -8,5 +8,9 @@ const schema = z.object({
 });
 export const collections = {
  lessons: defineCollection({loader: glob({pattern: '**/*.{md,mdx}', base: './src/content/lessons'}), schema}),
- korean: defineCollection({loader: glob({pattern: '**/*.{md,mdx}', base: './src/content/korean'}), schema})
+ korean: defineCollection({loader: glob({pattern: '**/*.{md,mdx}', base: './src/content/korean'}), schema}),
+ academy: defineCollection({
+  loader: glob({pattern: '**/*.{md,mdx}', base: './src/content/academy'}),
+  schema: z.object({title:z.string(),description:z.string(),order:z.number().int().positive(),duration:z.string(),course:z.enum(['ai-foundations','agents-tools','automation']),lang:z.enum(['en','ko'])})
+ })
 };
