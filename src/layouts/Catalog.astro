@@ -10,7 +10,6 @@ const entries=await Promise.all(courseIds.map(async id=>({id,...courses[id][lang
 const headings=[{depth:2,slug:'curriculum',text:ko?'과정 선택':'Choose your course'},{depth:2,slug:'learning-path',text:ko?'어디서 시작할까요?':'Where should I start?'}];
 ---
 <Book lang={lang} section="catalog" title={ko?'전체 과정':'All courses'} description={ko?'AI의 원리부터 에이전트, 앱 개발, 안정적인 자동화까지 예제와 실습으로 배우세요.':'Practical courses on AI systems, agents, software development, and reliable automation.'} headings={headings}>
- <div class="eyebrow">{ko?'AI 이해 · 실습 · 운영':'UNDERSTAND · BUILD · OPERATE'}</div>
  <h1>{ko?<>바이브 코딩과<br/><em>AI 시스템 이해하기</em></>:<>Vibe coding<br/><em>and the systems behind it.</em></>}</h1>
  <p class="lead">{ko?'프롬프트를 넘어, AI가 정보를 처리하고 도구를 사용하며 반복 작업을 수행하는 방식을 배웁니다.':'Go beyond prompting. Learn how AI processes information, uses tools, and runs repeatable work.'}</p>
  <p>{ko?'모든 과정을 순서대로 읽을 필요는 없습니다. 지금 해결하려는 문제에 맞는 과정을 선택하세요. 설명과 예제, 직접 해 볼 실습을 함께 제공합니다.':'Choose a course for the problem you want to solve. Each combines explanations, worked examples, and exercises—not just terms to memorize.'}</p>
