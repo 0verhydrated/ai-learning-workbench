@@ -35,6 +35,14 @@ English pages retain their original URLs. Korean pages live under `/vibe-coding-
 
 Keep the `part` frontmatter values in English; the interface translates them. Translate titles, descriptions, explanations, prompts, and exercises without changing executable identifiers or commands. Update both language versions when changing lesson content. Each page includes its language, canonical URL, and alternate-language metadata. Tests verify lesson parity, matching language links, and that Korean previous/next links stay in Korean.
 
+## AI News
+
+The English `/news/` and Korean `/ko/news/` pages share `src/data/news.json`. Each issue contains three source-linked summaries, original publication dates, an explicit coverage window, and concrete suggested experiments. Selection prioritizes useful skills, MCP integrations, libraries, and techniques—not big-tech headlines or policy debates. Popularity claims require dated evidence. The language menu preserves the news page.
+
+The approved Hermes job is enabled for **Sunday 08:00 KST (Asia/Seoul)**. It researches the news and updates only the data file; the existing GitHub Actions workflow builds and deploys the resulting commit. Publication occurs after research and deployment, not exactly at the scheduled start time. This requires the local machine to be awake and online with the Hermes gateway running; it is not a GitHub-hosted research scheduler. It uses the configured model/search services.
+
+See [the news update procedure](docs/news-update.md) for source verification, safe isolated-worktree updates, tests, and failure handling. If research or verification fails, the old issue stays live with its original update date. No API keys are shipped in the site.
+
 ## GitHub Pages
 
 Target repository: `0verhydrated/vibe-coding-book`.

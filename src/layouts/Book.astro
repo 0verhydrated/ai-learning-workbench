@@ -2,13 +2,14 @@
 import { getCollection } from 'astro:content';
 import { ui, parts, type Language } from '../i18n';
 import '../styles/book.css';
-interface Props { title: string; description: string; current?: string; lang?: Language; headings?: {depth:number;slug:string;text:string}[]; }
-const {title, description, current='', lang='en', headings=[]} = Astro.props;
+interface Props { title: string; description: string; current?: string; section?: 'book' | 'news'; lang?: Language; headings?: {depth:number;slug:string;text:string}[]; }
+const {title, description, current='', section='book', lang='en', headings=[]} = Astro.props;
+const newsTitle = lang==='ko' ? 'AI 뉴스' : 'AI News';
 const t = ui[lang];
 const lessons = (await getCollection(lang === 'ko' ? 'korean' : 'lessons')).sort((a,b)=>a.data.order-b.data.order);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const link = (path: string) => `${base}/${lang === 'ko' ? 'ko/' : ''}${path}`;
-const pagePath = current ? `lessons/${current}/` : '';
+const pagePath = section==='news' ? 'news/' : current ? `lessons/${current}/` : '';
 const enUrl = `${base}/${pagePath}`;
 const koUrl = `${base}/ko/${pagePath}`;
 ---
@@ -29,14 +30,15 @@ const koUrl = `${base}/ko/${pagePath}`;
 <aside class="sidebar" id="sidebar">
  <a class="brand" href={link('')}><span class="book-mark" aria-hidden="true">v<span>_</span></span><span>{lang === 'ko' ? <>바이브 코딩<br/>안내서</> : <>The Vibe<br/>Coding Book</>}<span class="edition">{t.edition}</span></span></a>
  <nav aria-label={t.courseChapters}>
-  <a class:list={['intro-link',{active:current===''}]} aria-current={current===''?'page':undefined} href={link('')}>{t.intro}</a>
+  <a class:list={['intro-link',{active:section==='book' && current===''}]} aria-current={section==='book' && current===''?'page':undefined} href={link('')}>{t.intro}</a>
+  <a class:list={['intro-link',{active:section==='news'}]} aria-current={section==='news'?'page':undefined} href={link('news/')}>{newsTitle}</a>
   {parts.map((part,i)=><section class="nav-part"><h2><span>0{i+1}</span> {t.partNames[i]}</h2><ol>{lessons.filter(l=>l.data.part===part).map(l=><li><a href={link(`lessons/${l.id}/`)} class:list={{active:current===l.id}} aria-current={current===l.id?'page':undefined}><span class="lesson-number">{String(l.data.order).padStart(2,'0')}</span><span>{l.data.title}</span></a></li>)}</ol></section>)}
  </nav>
  <div class="sidebar-foot">{t.learn}<br/><span>{t.understand}</span></div>
 </aside>
 <div class="page">
  <header class="topbar">
-  <span class="breadcrumb">{t.book} <span class="slash">/</span> {current?t.lessons:t.intro}</span>
+  <span class="breadcrumb">{t.book} <span class="slash">/</span> {section==='news'?newsTitle:current?t.lessons:t.intro}</span>
   <div class="topbar-actions">
    <a class="overview-link" href={link('')+'#curriculum'}>{t.overview} <span aria-hidden="true">↗</span></a>
    <details class="language-menu">
