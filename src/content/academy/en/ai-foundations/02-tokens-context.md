@@ -11,7 +11,7 @@ duration: '15 min'
 
 A **token** is a unit produced by a tokenizer and represented by a numerical identifier. Depending on the tokenizer, a unit can correspond to a word, part of a word, punctuation, or bytes. A model needs the tokenizer and vocabulary compatible with its training; splitting text on spaces is not an accurate substitute.[4]
 
-This matters for bilingual applications. English and Korean sentences expressing the same idea need not consume the same number of tokens. Korean particles and endings, English compounds, code identifiers, emoji, and mixed-language text can split differently. Neither character count nor an English words-to-tokens shortcut reliably predicts another language's bill. Measure representative inputs using the actual model tokenizer or the provider's token-counting facility. Include message formatting and tool definitions when the API counts them.
+English and Korean sentences expressing the same idea need not consume the same number of tokens. Korean particles and endings, English compounds, code identifiers, emoji, and mixed-language text can split differently. Neither character count nor an English words-to-tokens shortcut reliably predicts another language's bill. Measure representative inputs using the actual model tokenizer or the provider's token-counting facility. Include message formatting and tool definitions when the API counts them.
 
 For example, compare “Please reset my password” with “비밀번호를 재설정해 주세요.” Do not infer token counts from the visible spaces. Record the tokenizer name, both counts, and whether special message tokens were included. This is a measurement procedure, not a claim that one language always costs more.
 
@@ -33,11 +33,11 @@ print(allowance, remaining, remaining - 900)
 assert (allowance, remaining, remaining - 900) == (6000, 700, -200)
 ```
 
-Generation here is a combined planning reserve, including reasoning where applicable; do not count the same reasoning tokens twice. Actual accounting and output-limit semantics depend on the API. A comfortable budget also does not guarantee that every relevant detail will be used correctly.
+Generation here is a combined planning reserve, including reasoning where applicable; do not count the same reasoning tokens twice. Actual accounting and output-limit semantics depend on the API. Even when the passages fit, check whether the answer applies the relevant policy exception correctly.
 
 ## Storage, compaction, and caching solve different problems
 
-An app's **memory** is stored information it can retrieve later: preferences, conversation records, or project notes. Storage is not automatically active context. The app must select and include relevant information, or expose a tool that retrieves it. A conversation identifier is a mechanism for managing state, not evidence that unlimited history fits in one request.
+An app's **memory** is stored information it can retrieve later: preferences, conversation records, or project notes. Storage is not automatically active context. The app must select and include relevant information, or expose a tool that retrieves it. A conversation identifier helps the app manage state, but the history included in each request still has to fit the context window.
 
 **Compaction** replaces earlier material with a smaller representation. A plain-language summary can lose exceptions, exact identifiers, failed attempts, or the source behind a claim. Some services provide specialized compacted state rather than an ordinary summary. Either way, preserve authoritative artifacts outside the chat and retrieve exact details when needed. A summary saying “tests passed” is not a substitute for the test command, output, and code revision.
 

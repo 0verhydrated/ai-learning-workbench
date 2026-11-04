@@ -9,7 +9,7 @@ duration: "24 min"
 
 ## Two different questions
 
-A **unit test** checks a narrow software contract: does a parser reject a missing date? An **evaluation**, or eval, measures how well model-assisted behavior meets task criteria across examples: does a bilingual summary preserve qualifications and attribute claims? Both matter. Passing parser tests does not demonstrate factual summaries; a persuasive summary does not prove that a retry handler is correct.
+A **unit test** checks a narrow software contract: does a parser reject a missing date? An **evaluation**, or eval, measures how well model-assisted behavior meets task criteria across examples: does a bilingual summary preserve qualifications and attribute claims? Passing parser tests leaves summary accuracy unchecked; a persuasive summary tells you nothing about whether the retry handler works.
 
 OpenAI's evaluation guide describes defining a task, running test inputs, and analyzing results [1]. Use that methodology independently of any particular hosted product. This lesson uses a local evaluator, not an Evals API integration; check current product availability before choosing hosted tooling.
 
@@ -19,7 +19,7 @@ A **ground-truth dataset** pairs representative inputs with reviewed expected an
 
 Separate a development set from a held-out set that prompt authors do not repeatedly optimize against. Version the dataset, prompt, model identifier, and configuration together. Compare a candidate with the baseline on the same examples; repeat sampled model runs when variability matters. Report category-level failures and uncertainty, not only one average. A small curated set is useful for finding regressions, not proof of general reliability.
 
-## Run an honest offline evaluator
+## Check the evaluator offline
 
 The following standard-library program uses **fictional, handwritten fixtures**. It makes no network requests and runs no model. Its intentionally weak candidate drops one qualifier and invents another fact, so the evaluator should detect two failures. This is a test of the checking machinery, not measured model performance.
 
@@ -51,7 +51,7 @@ Record run ID, stage, duration, retry count, tool error class, prompt version, a
 
 Keep telemetry privacy-safe: omit credentials, raw private documents, full prompts, and sensitive query strings by default. Use allowlisted attributes, access control, retention limits, and reviewed redaction. Correlation IDs should connect operational events without becoming a second store of personal content.
 
-## Exercise and misconception
+## Exercise: a higher average can hide a regression
 
 **Exercise:** Unit tests pass, the average judge score rises, but Korean summaries turn planned releases into completed launches. Should the candidate ship?
 

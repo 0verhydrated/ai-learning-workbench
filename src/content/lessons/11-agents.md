@@ -8,7 +8,7 @@ duration: '18 min'
 
 ## Delegate a task, not ownership
 
-A coding agent can inspect files, edit code, run commands, and repeat those steps with less supervision than a chat assistant. That autonomy makes a clear task boundary more important. The agent should know which files it may change, what counts as success, and which actions require your approval.
+A coding agent can inspect files, edit code, run commands, and repeat the cycle with less supervision than a chat assistant. Define its boundaries before that cycle starts: allowed files, evidence needed for completion, and actions that require your approval. Otherwise a small request can lead to changes you never intended to authorize.
 
 For the reading list, adding tests for corrupt storage is a reasonable delegated task. "Improve the app however you like" is not. The first has a defined interface and observable results; the second invites product decisions, dependency changes, and broad rewrites.
 
@@ -41,13 +41,13 @@ Run node --test storage.test.mjs and report actual output and limits.
 Finish with the changed files, assumptions, and unverified behavior.
 ```
 
-The brief gives the agent a stopping rule when the task does not fit its allowed scope. Otherwise it might "helpfully" alter the parser to make a convenient test pass. Review any request to expand scope against the original goal.
+The brief tells the agent to stop and report an API obstacle instead of changing the parser to suit a convenient test. If it asks for broader scope, check whether that expansion is necessary to test the existing behavior. Permission to write tests does not include permission to redefine what they test.
 
-Parallelize independent work. One agent can inspect accessibility while another writes parser tests, provided their outputs do not modify the same files. Do not ask several agents to redesign the shared data format independently and expect automatic integration to resolve the disagreement.
+Accessibility inspection and parser tests can run in parallel when their outputs do not modify the same files. Shared design decisions need coordination first. If several agents independently redesign the data format, merging their files will not resolve incompatible assumptions about what a book contains.
 
 ## Review the work, then integrate it
 
-Read the diff yourself. Check whether assertions describe intended behavior, whether tests really ran, and whether failures were hidden by skipped cases or weakened expectations. A second agent can review the patch, but agreement between agents is not independent proof of correctness.
+Read the diff and compare its assertions with the behavior you requested. Inspect actual test output, including skipped cases, and look for expectations weakened to hide failures. A second agent can help review the patch; agreement between two agents does not independently establish that the code is correct.
 
 After approving the branch, merge it into your intended integration branch and rerun relevant checks there. A test that passed in an isolated worktree may fail alongside changes made elsewhere. Keep publication separate from merging; passing tests does not authorize an agent to deploy.
 

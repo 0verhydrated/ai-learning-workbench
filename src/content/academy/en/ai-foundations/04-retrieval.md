@@ -9,7 +9,7 @@ duration: "20 min"
 
 ## Bring evidence into the working context
 
-The previous lessons separated training from inference and treated context as a limited budget. **Retrieval-augmented generation (RAG)** connects those ideas: retrieve relevant material, place selected passages in context, and ask the model to answer from that evidence. OpenAI documents this search-then-synthesize workflow.[1] Retrieval alone returns evidence; generation is a separate step.
+**Retrieval-augmented generation (RAG)** retrieves relevant material, places selected passages in context, and asks the model to answer from that evidence. OpenAI documents this search-then-synthesize workflow.[1] Retrieval alone returns evidence; generation is a separate step.
 
 RAG does not update model weights. **Fine-tuning** does: it trains a model further on examples. Use retrieval when answers need changing policies or inspectable source passages; consider fine-tuning for learned task behavior or formatting. They can be combined, but neither guarantees truth. Uploading a document to a searchable store is not itself fine-tuning.
 
@@ -29,7 +29,7 @@ Filter by the authenticated user's permissions **before** exposing passages to a
 
 ## Worked example: honest offline lexical retrieval
 
-Save this as `retrieve.py` and run `python3 retrieve.py`. These are fictional, already-chunked English fixtures. This standard-library example uses word overlap, **not embeddings, fake vectors, an API, or generated answers**. Its word splitter is not a model tokenizer or a Korean search implementation.
+Save this as `retrieve.py` and run `python3 retrieve.py`. These are fictional, already-chunked English fixtures. This standard-library example ranks passages by shared words. It uses no embeddings or API and generates no answers. Its word splitter is not a model tokenizer or a Korean search implementation.
 
 ```python
 import re
@@ -73,7 +73,7 @@ Try `retrieve("recover credentials", {"public"})`. Explain the result, propose a
 <details>
 <summary>Suggested answer</summary>
 
-It returns an empty list because the words do not overlap. Test a synonym-aware or semantic retriever, possibly hybrid, against a labeled query set. Do not invent vector scores to make this example look semantic. Preserve the staff-access exclusion and source provenance; also test empty permissions, stale evidence, and unsupported questions. Better recall must not silently widen access or turn weak matches into confident answers.
+It returns an empty list because the words do not overlap. Test a synonym-aware or semantic retriever, possibly hybrid, against a labeled query set. The empty result demonstrates a limit of word overlap; invented vector scores would not test a semantic retriever. Preserve the staff-access exclusion and source provenance; also test empty permissions, stale evidence, and unsupported questions. Better recall must not silently widen access or turn weak matches into confident answers.
 
 </details>
 

@@ -10,7 +10,7 @@ duration: '18 min'
 
 The first milestone is modest: type a book title, submit it, and see it in a list. Do not add storage, sorting, cover images, or animation yet. One complete interaction gives you a working baseline and a smaller area to inspect when something fails.
 
-Put this document in `index.html`. The heading belongs in your application, even though this lesson's title is supplied by the course layout.
+Put this document in `index.html`. Include the heading in the application itself; the course layout only supplies the lesson title.
 
 ```html
 <!doctype html>
@@ -94,7 +94,7 @@ Open the page through your local server. Use the keyboard to reach the input and
 
 Before asking an assistant to extend this page, identify every connection between the files. The HTML requests the stylesheet and module by relative path. The JavaScript selects elements by their IDs. Changing an ID in the markup without changing its selector breaks that connection even if both files remain syntactically valid.
 
-Read the handler from top to bottom and explain why validation happens before the array changes. Then explain why rendering happens after the change. If those steps are reversed, the screen may display the previous state. This short explanation is a useful review technique: it exposes missing understanding before a larger feature makes the sequence harder to follow.
+Read the handler from top to bottom and explain why validation happens before the array changes. Then explain why rendering happens after the change. If those steps are reversed, the screen may display the previous state. Explaining that order can reveal gaps in your understanding while the handler is still short enough to follow.
 
 ## Exercise: describe a successful first version
 

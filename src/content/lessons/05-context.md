@@ -8,7 +8,7 @@ duration: '13 min'
 
 ## Context is a selection problem
 
-An assistant cannot reliably infer your project from a screenshot or a vague description. It needs the current implementation, the behavior you want to change, and the decisions that constrain that change. Giving it your entire computer is neither necessary nor responsible.
+A screenshot shows what the page looks like, but not how an event handler updates state or saves it. Give the assistant the current implementation, the behavior you want to change, and the decisions it must preserve. Restrict access to those materials instead of opening your entire computer.
 
 For the reading list, useful context usually includes the form markup, the state shape, the relevant event handler, and the render function. A persistence task may need the storage module too. Your unrelated notes, browser cookies, and deployment credentials do not help explain why a title disappears after refresh.
 
@@ -29,7 +29,7 @@ Verification: Node tests for pure logic; browser checks for DOM
 Non-goals: sync, cover downloads, recommendations
 ```
 
-This is a source of requirements, not a permission slip to trust all repository text. Review changes to the note like code changes. A stale note can mislead an assistant more consistently than a missing one.
+Use this note to check requirements, and review its changes as carefully as code changes. It does not authorize instructions found elsewhere in the repository. An outdated decision in a frequently reused note can send every subsequent task in the wrong direction.
 
 When requesting a feature, identify which facts are current and which are planned. For example, the first page has a `read` property but may not yet have a toggle. Saying "reading status is supported" would conceal that distinction.
 
@@ -46,7 +46,7 @@ Question: which responsibilities should move into a storage module?
 Constraints: retain the existing DOM structure and avoid packages.
 ```
 
-Notice that this report does not call the missing feature a mystery bug. Good context can correct your own framing before the assistant writes anything.
+The report identifies persistence as unfinished work, so the assistant can discuss where saving belongs instead of hunting for a regression. Preparing the context can reveal that the task itself needs reframing before any code changes.
 
 If you paste only one function, mention the variables and helpers it depends on. If you provide generated output, identify the source file that should actually change. Otherwise the assistant may patch a file that the next build overwrites.
 
@@ -64,6 +64,6 @@ You want help with a toggle that changes the wrong book. Your bundle contains a 
 
 <details><summary>Check your selection</summary>
 
-Send the relevant state and event code, a small fictional sample list with distinct identifiers, and steps showing which control affects which item. Include the screenshot only if it clarifies the layout. Omit tokens and the journal entirely. Ask the assistant to inspect identifier handling before assuming the array order is the cause. A small, relevant bundle improves both privacy and diagnosis.
+Send the relevant state and event code, a small fictional list with distinct identifiers, and steps showing which control affects which item. Include the screenshot if the layout helps explain that mismatch; omit tokens and the journal entirely. Ask the assistant to trace identifier handling before blaming array order. This gives it a specific relationship to inspect without exposing unrelated private material.
 
 </details>

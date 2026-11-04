@@ -11,7 +11,7 @@ duration: "18 min"
 
 A **trigger** requests work; a **scheduler** decides when to issue that request; a **worker** executes it. A saved schedule proves only that the scheduler has configuration. It does not prove that a worker started, retrieved useful sources, or delivered a result. Track these as separate states: scheduled, started, completed, and delivered.
 
-For example, a weekly news assistant needs both a Sunday trigger and a working execution environment. If its laptop sleeps, saving the schedule cannot make the processor run. Hermes documents fresh agent sessions for scheduled runs [1]. Treat each run as a new worker: provide the repository path, source policy, output schema, deadline, and durable checkpoint location. Do not depend on yesterday's conversation remaining in context.
+A weekly news assistant needs a working execution environment as well as a Sunday trigger. If it runs on a laptop, the laptop must be awake when the job is due. Hermes documents fresh agent sessions for scheduled runs [1]. Treat each run as a new worker: provide the repository path, source policy, output schema, deadline, and durable checkpoint location. Do not depend on yesterday's conversation remaining in context.
 
 ## Read all five fields
 
@@ -52,7 +52,7 @@ Prepare a run contract with the effective timezone, next three intended occurren
 
 For Hermes, compare the installed command/tool schema with current documentation before using any scheduling option. Documentation and installed releases can differ. Verify the persisted next-run timestamp and enabled state, then perform an explicitly authorized dry-run. This lesson does not create a live schedule. Keep credentials in the runtime's secret store, never inside cron text, prompts, committed files, or notification messages.
 
-## Misconception and exercise
+## Exercise: correct the timezone and check delivery
 
 “Cron accepted my expression, so the newsletter will arrive” confuses configuration with delivery. Use separate evidence for each transition, including a readback of the intended destination.
 

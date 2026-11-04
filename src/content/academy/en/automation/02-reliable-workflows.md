@@ -1,6 +1,6 @@
 ---
 title: "Reliable workflows and honest retries"
-description: "Bound retries, preserve checkpoints, and prevent duplicate effects without promising magical exactly-once execution."
+description: "Limit retries, preserve checkpoints, and prevent duplicate effects across local state and remote publication."
 order: 2
 course: automation
 lang: en
@@ -9,7 +9,7 @@ duration: "22 min"
 
 ## Reliability means recovering without multiplying harm
 
-A **reliable workflow** reaches an acceptable outcome despite expected failures, or stops in a state that an operator can understand and recover. Reliability is not “keep trying forever.” A news pipeline that publishes the same article repeatedly is not reliable even if every HTTP request eventually succeeds.
+A **reliable workflow** reaches an acceptable outcome despite expected failures, or stops in a state that an operator can understand and recover. Retrying forever can make failures worse: a news pipeline may publish the same article repeatedly even if every HTTP request eventually succeeds.
 
 A **retry** repeats an attempt. **Idempotency** means repeating the same logical operation has no additional intended effect. **Deduplication** identifies repeated inputs. **Checkpoints** preserve completed stages so recovery does not restart everything. These concepts work together, but none alone guarantees exactly-once execution across unrelated systems [1][2].
 

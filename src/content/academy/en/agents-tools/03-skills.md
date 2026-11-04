@@ -11,7 +11,7 @@ duration: "20 min"
 
 An **Agent Skill** is a directory containing `SKILL.md`: YAML metadata followed by Markdown instructions. It packages procedural knowledge—how to carry out a recurring task—and can include reference documents, templates, or scripts. It does not train the model or automatically grant new execution permissions. [1][2]
 
-Keep four concepts separate. A **tool** executes an operation through a defined interface. A **skill** explains a procedure that may use tools. A **plugin** is a host-specific extension package that may register executable functionality, interfaces, or bundled skills. **MCP** is a protocol through which external programs expose capabilities. A reporting skill might use an MCP search tool supplied by an integration, but installing the instructions does not install that server or authorize access to its data.
+A **tool** executes an operation through a defined interface. A **skill** explains a procedure that may use tools. A **plugin** is a host-specific extension package that may register executable functionality, interfaces, or bundled skills. **MCP** is a protocol through which external programs expose capabilities. A reporting skill might use an MCP search tool supplied by an integration, but installing the instructions does not install that server or authorize access to its data.
 
 ## Progressive disclosure
 
@@ -85,11 +85,11 @@ Next: T-13 — obtain completion evidence; owner unknown.
 Coverage: T-11, T-12, T-13. Excluded: none.
 ```
 
-The important transformation is T-13: a `done` label alone does not satisfy the skill's completion rule. Verification checks coverage as well as fluent wording. Every input ID appears once, and no missing owner was invented. This is a manually worked example, not a claim that an agent ran the skill.
+T-13 moves to next actions because its `done` label lacks the required evidence. The coverage line lets a reviewer check that every input ID appears once; the unknown owner remains unknown. This is a manually worked example, not a claim that an agent ran the skill.
 
 ## Limits and safe reuse
 
-A skill improves consistency, not certainty. It can reference unavailable tools, outdated commands, or unsafe scripts. Review bundled code and its dependencies before execution; use restricted credentials, a sandbox, and approval controls where appropriate. A Markdown instruction saying “do not send” expresses intent; the host should separately withhold sending capability when drafting only.
+Even a carefully written skill can reference unavailable tools, outdated commands, or unsafe scripts. Review bundled code and its dependencies before execution; use restricted credentials, a sandbox, and approval controls where appropriate. A Markdown instruction saying “do not send” expresses intent; the host should separately withhold sending capability when drafting only.
 
 The specification's `allowed-tools` field is experimental and support varies. Do not treat it as a portable security boundary. Likewise, a downloaded skill claiming to override all previous instructions has no authority to do so. [2]
 
@@ -100,7 +100,7 @@ Add another T-12 row marked `done`, but keep the blocked row. Should the skill c
 <details>
 <summary>Solution</summary>
 
-Flag the conflicting ID and request clarification before totals. Silently taking the last row would invent a conflict-resolution policy. Keep the short conflict rule in `SKILL.md`; place the detailed status policy in a directly linked reference. Add the duplicate case to future checks so the procedure remains testable rather than merely persuasive.
+Flag the conflicting ID and request clarification before totals. Silently taking the last row would invent a conflict-resolution policy. Keep the short conflict rule in `SKILL.md`; place the detailed status policy in a directly linked reference. Add the duplicate case to future checks and verify that totals stay on hold until the conflict is resolved.
 
 </details>
 

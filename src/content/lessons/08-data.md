@@ -12,7 +12,7 @@ localStorage stores strings under keys for a browser origin. It does not store J
 
 Use a namespaced key such as `reading-list:v1`. Serialize the array with `JSON.stringify()` when saving and parse it when loading. Successful JSON parsing only proves that the text is valid JSON. The value might still be `null`, a number, or an array containing invalid books.
 
-Define a format before adding persistence. For this version, require an array of objects with unique nonempty string identifiers, titles containing non-whitespace text and no more than 200 characters, and boolean reading status. Set a reasonable list limit to avoid accidentally rendering enormous input.
+Before adding persistence, define which values the app accepts. This version requires an array of objects, each with a unique nonempty string identifier, a title containing non-whitespace text and no more than 200 characters, and a boolean reading status. Limit the number of books too, so a syntactically valid but enormous list is rejected before rendering.
 
 ## Validate at the boundary
 
@@ -58,13 +58,13 @@ export function loadBooks(storage) {
 
 Pass the storage object into this function so tests can use a small fake. Accessing `window.localStorage` itself can throw in restricted environments; catch that in the browser adapter too, before passing it onward.
 
-An empty fallback prevents a crash, but it must not immediately overwrite corrupt data. Keep a separate load-error flag, show a recovery message, and disable automatic saving until the user deliberately resets or resolves the problem. Offer copying or exporting the original raw value where possible. Do not present an empty fallback as proof that the user had no books.
+An empty fallback lets the page continue running after a failed load. Saving that fallback immediately, however, could destroy the only recoverable copy. Track the load error separately, show a recovery message, and keep automatic saving disabled until the user deliberately resets or resolves the problem. Where possible, let them copy or export the original raw value. The interface must distinguish an unreadable list from a list with no books.
 
 ## Report failed writes honestly
 
 A write can fail even when a read worked. Catch errors around `setItem()` and distinguish "added for this session" from "saved." You can keep the in-memory change and display a persistent warning, or revert it with a clear message. Choose one policy and test it.
 
-Avoid an unconditional save during startup. It can erase the only recoverable copy after a failed load. Also document that concurrent tabs can overwrite each other's changes; this simple version does not implement conflict resolution. A storage event can notify other tabs of changes, but merging conflicting edits requires its own design.
+Keep startup from saving unconditionally: after a failed load, that write could erase the only recoverable copy. Document that concurrent tabs can overwrite each other's changes and that this version has no conflict resolution. A storage event can notify other tabs that something changed; deciding how to merge their edits requires a separate design.
 
 ## Exercise: design a corrupt-data test
 
@@ -72,6 +72,6 @@ Create a fake storage object whose `getItem()` returns `'{broken'`. Verify that 
 
 <details><summary>Check the recovery behavior</summary>
 
-A useful fake counts writes and lets the test inspect that count. The corrupt-read case should expose a warning, retain the original storage value, and require an explicit recovery choice before saving. The failed-write case should not claim persistence succeeded. These are separate failure paths, so one passing test does not cover both.
+Have the fake count writes so the test can detect an accidental save after loading fails. In the corrupt-read case, check for a warning, preservation of the original value, and an explicit recovery choice before saving resumes. In the failed-write case, check that the interface does not claim the change was saved. A passing read-failure test says nothing about how the app reports a write failure.
 
 </details>

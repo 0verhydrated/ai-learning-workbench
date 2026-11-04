@@ -7,7 +7,7 @@ lang: en
 duration: '15 min'
 ---
 
-## What is actually answering you?
+## Separate the model from the app
 
 A **model** is a computational system with learned numerical parameters, often called weights. It transforms an input into predictions or generated output. An **app** is the product around it: the chat interface, document uploads, search, saved conversations, permissions, and tools. A **provider** operates or distributes access to models. One provider can offer multiple models; one app can route different requests to different providers.
 
@@ -35,7 +35,7 @@ Suppose your team needs to label incoming tickets, explain screenshot errors, an
 
 Create a small evaluation set from sanitized examples: straightforward cases, ambiguous wording, Korean messages, missing information, and deliberately misleading screenshots. Keep expected answers separate from prompts. Compare candidates using identical inputs and available tools. Record correctness, unsupported claims, response time, and cost, then repeat runs rather than trusting one lucky response. Official optimization guidance similarly starts with representative evaluations and a baseline before tuning prompts or models.[3]
 
-The misconception is **“the strongest model is always the best product choice.”** A candidate that produces elegant explanations but misses a required field can be worse for ticket routing than a simpler model with reliable validation. Sometimes a lookup table is better than either.
+For ticket routing, a missing required field can make an otherwise fluent answer unusable. A simpler model with reliable validation may fit that task better than a stronger one; if fixed rules cover the labels, a lookup table may be enough.
 
 ## Exercise: make a decision record
 

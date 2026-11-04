@@ -12,7 +12,7 @@ The reading list is a static application. A host serves HTML, CSS, and JavaScrip
 
 Prepare a publish directory containing the page, styles, browser modules, and any required assets. Do not upload your repository metadata, credentials, personal notes, or development-only files by accident. If your host deploys directly from a repository, inspect its publish-directory setting rather than assuming the repository root is appropriate.
 
-Run your tests and local browser checklist before creating a deployment. Record the commit you intend to publish. A successful upload only proves that files were accepted; it does not prove that the deployed page works.
+Before deploying, run the tests and local browser checklist, then record the commit you intend to publish. Treat the upload result as confirmation that the host accepted files. You still need to open the published page and verify that those files work together there.
 
 ## Test the deployed base path
 
@@ -38,13 +38,13 @@ The deployed site also has a different origin from your local server. Your devel
 
 ## Verify people can use the release
 
-On the deployed page, add a title, toggle it, refresh, and confirm the saved state. Try an invalid title and a literal markup-looking title. Test with keyboard only: focus should be visible, control names understandable, and focus position sensible after updates.
+Use the published page to add a title, toggle it, and refresh to check the saved state. Submit an invalid title and a title that looks like markup; the latter should display literally. Repeat the interaction with only a keyboard, watching for visible focus, understandable control names, and a sensible focus position after each update.
 
 Check a narrow screen and browser zoom. Look for clipped controls, horizontal scrolling, unreadable contrast, and status messages that rely only on color. An automated accessibility scan can find some problems but cannot establish that the interaction makes sense. Read the page with assistive technology when possible and document what you actually checked.
 
 ## Plan rollback before you need it
 
-Keep a known-good deployment or commit and learn the host's restore procedure. If a release breaks loading, restore that version and verify the public URL again. Caches may delay what visitors receive, so inspect requested assets rather than trusting a single reload.
+Keep a deployment or commit whose behavior you have verified, and learn how the host restores it before a release breaks loading. After restoring it, check the public URL again. Inspect the assets the browser requests: caches can delay delivery of the restored version, and a single reload may not show what visitors receive.
 
 Rolling back code does not roll back localStorage. A future data-format migration may make older code unable to read newer data. Keep migrations separate, test compatibility, and provide recovery or export before changing saved formats. This course's versioned key makes that decision visible; it does not solve migration automatically.
 
@@ -54,6 +54,6 @@ Record the deployed URL, source commit, checks performed, known limitations, and
 
 <details><summary>Check your release record</summary>
 
-The record should distinguish real observations from planned checks and state that data stays in the visitor's browser for that origin. List any untested browsers or accessibility checks honestly. Name a concrete prior deployment or commit for rollback, and note that restoring code will not restore erased browser data. A release is easier to maintain when its evidence and limits are written down.
+Separate checks you performed from checks you still plan to run. State that the list stays in the visitor's browser for that origin, and list browsers or accessibility checks you did not test. Identify the prior deployment or commit to restore, including the limit of that action: restoring code cannot recover erased browser data. This gives the next release decision a record of what was checked and what remains unknown.
 
 </details>

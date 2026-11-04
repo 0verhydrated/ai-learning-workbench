@@ -10,7 +10,7 @@ duration: '14 min'
 
 "Make my reading list better" invites the assistant to invent a product. It might add accounts, a framework, or a sorting menu when you only wanted to mark a book as read. Broad requests also make review difficult: there is no agreed boundary for deciding whether a change belongs.
 
-A useful prompt states the current behavior, one desired change, relevant constraints, and checks that distinguish success from failure. You do not need a special persona or elaborate ceremony. You need enough information to prevent the assistant from guessing the decisions you care about.
+A useful prompt states the current behavior, one desired change, relevant constraints, and checks that distinguish success from failure. Give the assistant enough information to avoid guessing decisions such as which data field should hold reading status. A special persona or elaborate prompt format is unnecessary.
 
 For this project, the next feature is a reading-status toggle. The data already has a boolean `read` field, so the change should use that field rather than create a second, conflicting representation such as a CSS class that becomes the only source of truth.
 
@@ -64,6 +64,6 @@ Rewrite "Add search and make it nice" into a prompt for filtering the existing l
 
 <details><summary>Compare your acceptance criteria</summary>
 
-A bounded version requests a labeled search input, case-insensitive substring matching, an explicit no-results message, and restoration of all books when the query is cleared. It says filtering must not delete books or change reading status. It also asks for keyboard checks and forbids unrelated dependencies. Choosing these rules before implementation avoids arguing about whether an assistant's guessed behavior was technically correct.
+A bounded version requests a labeled search input, case-insensitive substring matching, an explicit no-results message, and restoration of all books when the query is cleared. It says filtering must not delete books or change reading status. It also asks for keyboard checks and forbids unrelated dependencies. With these rules in the prompt, you can check the proposed search against agreed behavior instead of debating an implementation based on guesses.
 
 </details>

@@ -8,7 +8,7 @@ duration: '18 min'
 
 ## Extract a rule you can test directly
 
-A useful test fails when the intended behavior breaks and gives you enough information to find the problem. It does not merely exercise a function or confirm that an assistant's output matches itself. Start with a rule you understand: toggling one identifier changes only that book and leaves the original array unchanged.
+Start with a rule you can explain: toggling one identifier changes only that book and leaves the original array unchanged. The test should fail if either part of the rule breaks and show which expectation was violated. Merely calling the function, or comparing two outputs built on the same assumption from the assistant, does not establish the intended behavior.
 
 Pure functions make this rule easy to test. They accept values and return values without reading the DOM, storage, the clock, or a network service. Keep browser event handling in `app.js`, and put the transformation in `books.mjs`. The `.mjs` extension tells Node to treat the file as an ES module without requiring package configuration. Browsers can import it too when your server sends an appropriate JavaScript MIME type.
 
@@ -55,15 +55,15 @@ Run the test again and inspect its actual result. The example is a proposed impl
 
 Use fixed identifiers in tests. A test that generates random IDs or depends on today's date can fail for reasons unrelated to the rule. If a creation function needs an identifier, pass it in or inject an ID generator. The browser adapter can still call `crypto.randomUUID()` during real use.
 
-Add tests for toggling twice and for an unknown identifier. Decide the unknown-ID policy explicitly; returning an equal list without changes is reasonable here. Test that policy rather than allowing an assistant to choose silently.
+Test toggling twice, which should restore the original reading status, and passing an unknown identifier. Choose the unknown-ID policy yourself. Returning a list with unchanged values is reasonable here; write that expectation down so an assistant cannot silently substitute a different policy.
 
-Avoid implementation-specific assertions unless they express a real requirement. The interface cares that the other book retains its values, not necessarily that a particular helper was called once. Overly coupled tests make harmless refactoring unnecessarily expensive.
+Check that the other book retains its values. Unless the requirements say otherwise, the number of calls to a particular helper is an implementation detail. Asserting that detail would force you to rewrite the test when reorganizing code even if the behavior stayed correct.
 
 ## Know what these tests cannot prove
 
 Node's built-in test runner does not provide the browser DOM or localStorage. These tests cannot show that a checkbox has an accessible name, a script URL loads, or focus survives rendering. Keep a short browser checklist alongside the unit tests. Later, a browser automation tool may cover part of that checklist, but manual inspection still has a role.
 
-Ask an assistant for missing cases, then review each proposed expectation. Generated tests can repeat the same misunderstanding as generated code. Read the assertions as product decisions, not decorative proof of quality.
+An assistant can suggest missing cases, but review what each assertion requires the app to do. Generated code and generated tests may share the same misunderstanding. A passing test supports the expectation you wrote; it does not establish that you chose the right expectation.
 
 ## Exercise: test the unknown identifier
 

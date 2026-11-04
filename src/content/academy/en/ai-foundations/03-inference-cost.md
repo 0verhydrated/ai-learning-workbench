@@ -7,7 +7,7 @@ lang: en
 duration: '15 min'
 ---
 
-## Fast for one person or fast for a queue?
+## Measure waiting time and completed work
 
 **Inference** is running a trained model on new input. **Latency** is elapsed time for an individual request; **throughput** is completed work per unit of time. Time to first token measures when output starts, while total latency measures when it finishes. Streaming can make an interface feel responsive without reducing total computation. A system can process many requests concurrently yet still make each person wait.
 
@@ -17,7 +17,7 @@ Measure the whole path: queueing, network travel, prompt processing, generation,
 
 A language model predicts possible next tokens. **Sampling** selects among those possibilities. Temperature, when supported, changes how concentrated that selection distribution is: lower values generally favor likely tokens, while higher values permit more variation. It does not verify facts or look up missing evidence. A model can repeatedly select the same incorrect answer.
 
-The misconception is **“temperature zero means correct and perfectly reproducible.”** Even a low-variation configuration is not a universal reproducibility guarantee across hosted systems, model revisions, or numerical implementations. Pin supported model versions, record prompts and settings, and test repeated runs. For exact arithmetic, use a calculator rather than asking a model to sound certain. Some models do not expose temperature at all; check the actual API instead of copying settings blindly.
+**Temperature zero** guarantees neither correctness nor perfect reproducibility. Even a low-variation configuration can produce different results across hosted systems, model revisions, or numerical implementations. Pin supported model versions, record prompts and settings, and test repeated runs. For exact arithmetic, use a calculator rather than asking a model to sound certain. Some models do not expose temperature at all; check the actual API instead of copying settings blindly.
 
 ## Worked bill with deliberately fictional prices
 
@@ -48,7 +48,7 @@ print(f"1000 requests: ${cost(2000, 1200, 500, 1000):.2f}")
 assert cost(2000, 1200, 500) == D("0.0062")
 ```
 
-Real invoices may include cache writes, reasoning tokens, images, storage, tools, retries, and other billing categories. Consult current terms and reconcile against actual usage. A hypothetical estimate is not a spending guarantee.
+Real invoices may include cache writes, reasoning tokens, images, storage, tools, retries, and other billing categories. Consult current terms and reconcile against actual usage. Use the fictional bill to check the calculation method, then budget from the service’s actual rates and usage categories.
 
 ## Improve the workflow before increasing concurrency
 

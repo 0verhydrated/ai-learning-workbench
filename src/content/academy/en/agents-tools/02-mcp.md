@@ -9,7 +9,7 @@ duration: "20 min"
 
 ## A protocol, not an agent
 
-The **Model Context Protocol (MCP)** standardizes how an AI application exchanges context and invokes capabilities supplied by another program. It does not decide which model to use, how to plan, or whether an action deserves approval. Those remain application responsibilities. A server connection therefore adds an interface, not intelligence or automatic trust. [1]
+The **Model Context Protocol (MCP)** standardizes how an AI application exchanges context and invokes capabilities supplied by another program. It does not decide which model to use, how to plan, or whether an action deserves approval. Those remain application responsibilities. Connecting a documentation server makes its search interface available; the application still has to decide when to search and whether to trust the returned passages. [1]
 
 There are three participants:
 
@@ -56,9 +56,9 @@ A tool returned by `tools/list` could include:
 
 For “Can I export 250 rows at once?”, the host lists tools, validates the schema, and permits a `tools/call` for `search_docs` with `{"query":"CSV export row limit","limit":3}`. The server searches only its approved snapshot and returns the export passage with its source identifier. The model can then answer: “Not in one export: release-4 documents a 100-row limit.” This is an **illustrative interaction**, not a recorded live call.
 
-If the server also advertises resources, the client can use `resources/list` and `resources/read` to retrieve the underlying guide. It must not assume a tool result's identifier is automatically a readable MCP resource. Preserve the release label in the answer; old documentation should not silently become a claim about the current product.
+If the server also advertises resources, the client can use `resources/list` and `resources/read` to retrieve the underlying guide. It must not assume a tool result's identifier is automatically a readable MCP resource. Keep the release label in the answer so readers can distinguish the documented limit from a claim about the current product.
 
-## Trust does not travel with the connection
+## Enforce permissions on the server
 
 Authentication establishes who is connecting; authorization determines permitted operations and data. Schema validation establishes neither. A tool description claiming “read-only” is not enforcement: the server implementation and backing credentials must actually prevent writes. Retrieved text can also contain prompt injection. Treat instructions embedded in documentation as untrusted content, not permission to call another integration.
 

@@ -10,7 +10,7 @@ duration: '16 min'
 
 Refactoring changes the internal structure while preserving intended observable behavior. It can make the next feature easier to build, but "clean up everything" is a poor instruction. You need a specific source of friction: duplicated validation, a handler that mixes several responsibilities, or storage logic that cannot be tested without a browser.
 
-The reading list now has a form, transformations, rendering, and persistence. A single file may still be small enough to understand. Do not split it merely to create more files. Extract a boundary when it reduces coupling or gives you a useful testing seam.
+The reading list now handles form input, data transformations, rendering, and persistence. Those responsibilities may still fit in one readable file. Split out a responsibility when that lets you change it without touching unrelated code or test it on its own, rather than treating a larger file count as an improvement.
 
 A practical first target is the persistence boundary. Moving JSON parsing and validation into a module lets Node test them directly. The browser adapter can remain responsible for obtaining localStorage and displaying errors.
 
@@ -18,7 +18,7 @@ A practical first target is the persistence boundary. Moving JSON parsing and va
 
 Run existing tests before editing and record any failures. Check the browser flow too: add a book, toggle it, refresh, and use the controls by keyboard. If behavior is undocumented, write characterization tests that capture what the current code does. Then decide whether that behavior is actually desirable.
 
-Do not preserve a known bug just because a characterization test captured it. Fixing that bug is a separate behavioral change with a separate expectation. Keeping the distinction clear makes review easier: reviewers can tell whether a difference is intentional or accidental.
+A characterization test may record a known bug. You need not preserve the bug, but give its fix a separate expectation and treat it as a behavioral change. Then a reviewer can distinguish a deliberate correction from an accidental difference introduced while moving code.
 
 Use Git to inspect the starting point:
 
@@ -44,7 +44,7 @@ If behavior must change, stop and explain why before proceeding.
 
 First move the function and update its imports. Run the focused tests. Then run the complete available suite and the browser check affected by the module path. An extraction can preserve the function perfectly while breaking the page through a misspelled import.
 
-In a later step, you might separate a submit handler into input normalization, state transformation, rendering, and save reporting. Keep the sequence explicit: a failed save should not accidentally become a successful status message because a helper returns too little information.
+Once the extraction is checked, you might separate input normalization, state transformation, rendering, and save reporting within the submit flow. Preserve their execution order and pass the save outcome through to the reporting step. If a helper drops that outcome, the interface could report success after a failed save.
 
 ## Review for hidden behavior changes
 
@@ -52,7 +52,7 @@ Inspect more than formatting. Did the storage key change? Did title trimming mov
 
 A rename inside one module is different from renaming a serialized property. Changing `read` to `completed` in stored data requires compatibility decisions for existing lists. That is a migration, not just cleanup. Separate it from the refactor so old-format tests and recovery behavior receive attention.
 
-Prefer a modest improvement you can explain over an elaborate abstraction built for hypothetical features. A generic repository class, event bus, and plugin system would make this small reading list harder to follow unless a concrete requirement justified them.
+Choose an improvement you can explain in terms of the current code: parsing can now be tested without a browser, for example. A generic repository class, event bus, or plugin system adds concepts the reader must follow. For this small list, those costs need a concrete requirement, not a hypothetical future feature.
 
 ## Exercise: split an oversized proposal
 

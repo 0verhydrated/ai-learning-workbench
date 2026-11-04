@@ -7,15 +7,15 @@ lang: en
 duration: "20 min"
 ---
 
-## What makes an agent an agent?
+## Who chooses the next step
 
 An **LLM** generates an output from its current context. An **agent** is a system that repeatedly lets a model choose its next action, executes permitted actions, and returns observations so the model can decide again. A **deterministic workflow** chooses the next step through predefined code. A workflow can contain an LLM without giving it control over the route: extract fields, validate them, then render a report. The routing is fixed even if the generated wording varies. [1]
 
-Choose the simplest architecture that fits. Summing a known CSV column needs ordinary code. Summarizing a supplied document may need one model call. Investigating an unfamiliar failing test may justify an agent because the next useful file depends on what the previous test revealed.
+Summing a known CSV column needs ordinary code. Summarizing a supplied document may need one model call. Investigating an unfamiliar failing test may justify an agent because the next useful file depends on what the previous test revealed.
 
 ## The loop and its permission boundary
 
-A typical loop is: assemble context → obtain a structured action → validate → authorize → execute → return the observation → decide again. The model proposes; the host application executes. A sentence such as “I searched the documentation” is not evidence that a search happened.
+A typical loop is: assemble context → obtain a structured action → validate → authorize → execute → return the observation → decide again. The model proposes an action, but the host application decides whether to execute it. To verify “I searched the documentation,” inspect the tool call and its returned result.
 
 Tool definitions describe names, arguments, and constraints. JSON Schema can require a string, forbid extra properties, and bound its length. Validation checks the request's shape; authorization separately checks whether this user may use this tool against this data. A perfectly valid `delete_record` request can still be forbidden. Execution belongs to an allowlisted dispatcher, not `eval` applied to generated text. [1][2]
 
@@ -65,7 +65,7 @@ REJECT: invalid arguments
 OK: CSV export is supported.
 ```
 
-The first fixture fails before lookup; the second actually executes a dictionary lookup. A live agent could use the validation error to propose a corrected call, then cite the returned document. Here we scripted both requests, so this is a validator demonstration, **not an autonomous agent or an observed model run**. The validator manually implements this tiny contract, not the complete JSON Schema specification.
+The first fixture fails before lookup; the second actually executes a dictionary lookup. A live agent could use the validation error to propose a corrected call, then cite the returned document. Here we scripted both requests, so this is a validator demonstration, not an autonomous agent or an observed model run. The validator manually implements this tiny contract, not the complete JSON Schema specification.
 
 ## What the trace does not prove
 

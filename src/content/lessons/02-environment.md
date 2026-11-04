@@ -10,7 +10,7 @@ duration: '15 min'
 
 You need a text editor, a browser with developer tools, Git, and a supported Node.js release. The browser runs the reading list. Node runs development utilities and, later, automated tests. Git records intentional snapshots of your files. Your editor helps you inspect and change text; it does not determine which framework you must use.
 
-A paid coding assistant is optional. You can use a free service, a local model, or no assistant at all. Availability, quotas, and privacy terms vary, so choose based on your situation rather than treating a subscription as part of the application architecture. Never paste a provider's API key into the reading-list JavaScript.
+A paid coding assistant is optional. You can use a free service, a local model, or no assistant at all. Compare availability, quotas, and privacy terms when choosing a service; the reading list does not depend on an assistant subscription. Never paste a provider's API key into the reading-list JavaScript.
 
 Install software from its official distribution or a package manager you already trust. Follow the installation instructions for your operating system, then reopen your terminal if its PATH changed. A PATH is the list of directories your shell searches for commands.
 
@@ -24,7 +24,7 @@ npm --version
 git --version
 ```
 
-A version number establishes that the command is available, not that the whole environment is correct. If a command is missing, record the exact error and your operating system. Do not accept a random sequence of administrative commands as a substitute for diagnosis. An assistant should explain why a change is necessary before you grant broader permissions.
+A version number shows that the command is available. You still need to check the project directory and local server. If a command is missing, record the exact error and your operating system. Do not accept a random sequence of administrative commands as a substitute for diagnosis. An assistant should explain why a change is necessary before you grant broader permissions.
 
 Create a dedicated directory so project files do not mix with personal documents:
 

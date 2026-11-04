@@ -10,7 +10,7 @@ duration: '12 min'
 
 **Vibe coding** often means describing an outcome, accepting generated changes, and judging success by whether the screen looks right. That can be useful for a disposable experiment. It becomes risky when you cannot explain what changed, reproduce a failure, or recover someone's data. A convincing interface can still discard a reading list on refresh.
 
-**Responsible AI-assisted development** keeps the fast feedback but adds ownership. You choose the behavior, inspect changes, run checks, and decide whether the evidence supports shipping. An assistant can propose code and explain unfamiliar syntax. It cannot make your product decisions for you, and **its confident explanation is not a test result**.
+In **responsible AI-assisted development**, you use fast feedback while choosing the behavior, inspecting changes, running checks, and deciding whether the evidence supports shipping. An assistant can propose code and explain unfamiliar syntax. It cannot make your product decisions for you, and **its confident explanation is not a test result**.
 
 Our project is a reading list built with vanilla HTML, CSS, and JavaScript. Readers will add titles, mark books as read, and keep their list in the same browser using localStorage. There are no accounts, shared lists, or server database. Keeping that boundary explicit makes the project small enough to understand.
 
@@ -53,6 +53,6 @@ Write four statements describing your first usable version. Include one normal a
 
 <details><summary>Check your contract</summary>
 
-A reasonable contract says that submitting a nonempty title adds one visible book; whitespace-only input adds none and displays a message; a successfully saved list survives a reload on the same origin; and the list does not synchronize between devices. These statements can be checked separately. They also reveal a question for later: what should the interface say when saving fails? Writing that question down is more useful than silently assuming storage always works.
+A reasonable contract says that submitting a nonempty title adds one visible book; whitespace-only input adds none and displays a message; a successfully saved list survives a reload on the same origin; and the list does not synchronize between devices. These statements can be checked separately. They leave one question unresolved: what should the interface say when saving fails? Record it for the persistence lesson rather than assuming storage always works.
 
 </details>
