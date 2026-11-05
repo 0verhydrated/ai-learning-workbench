@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-05",
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "site",
+  "before": {
+    "floor": 43,
+    "reflex": 84
+  },
+  "after": {
+    "floor": 0,
+    "reflex": 0,
+    "waivedGate": "49b: source article titles wrap without truncation",
+    "keptLinks": "20/20"
+  },
+  "heroReview": {
+    "reviewer": "subagent",
+    "verdict": "fix",
+    "mobileResult": "resolved with native code disclosure",
+    "simulationDisclosure": "resolved beside run control",
+    "themeSurface": "resolved with source-oriented code and result surfaces",
+    "centeredComposition": "retained per Replit reference"
+  },
+  "finishReview": {
+    "reviewer": "subagent",
+    "findings": 3,
+    "resolved": [
+      "Topics visible on every course",
+      "Course titles precede metadata",
+      "News page has a single headline rail"
+    ]
+  },
+  "material": {
+    "slots": [],
+    "missingFacts": [],
+    "externalVisuals": [],
+    "examples": "Local educational walkthroughs, not live integrations"
+  },
+  "verification": {
+    "typecheck": "0 errors, warnings, hints",
+    "build": "60 pages",
+    "contentTests": 14,
+    "browserChecks": "see tests/browser and test:ui output"
+  }
+}

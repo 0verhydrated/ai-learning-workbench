@@ -16,7 +16,7 @@ const href=(entry:CollectionEntry<'academy'>)=>`${base}/${lessonPath(course,slug
  <h1 class="lesson-title">{lesson.data.title}</h1><p class="lead">{lesson.data.description}</p>
  <article class="prose"><Content/></article>
  <nav class="pagination" aria-label={t.navigation}>
-  <a href={prev?href(prev):`${base}/courses/${course}/`}><small>{t.previous}</small>← {prev?.data.title??t.overview}</a>
-  <a href={next?href(next):`${base}/courses/${course}/`}><small>{next?t.next:t.complete}</small>{next?.data.title??t.return} →</a>
+  <a href={prev?href(prev):`${base}/courses/${course}/`}><small>{t.previous}</small>{prev?.data.title??t.overview}</a>
+  <a href={next?href(next):`${base}/courses/${course}/`}><small>{next?t.next:t.complete}</small>{next?.data.title??t.return}</a>
  </nav>
 </Book>

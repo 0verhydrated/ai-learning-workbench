@@ -24,13 +24,13 @@ const updatedDate = new Intl.DateTimeFormat('en-CA', {
 const headings = issue.stories.map(story => ({ depth: 2, slug: story.id, text: story[lang].title }));
 ---
 <Book title={title} description={description} lang={lang} section="news" headings={headings}>
- <div class="eyebrow">{lang === 'ko' ? '매주 일요일 오전 8시 (한국 시간)' : 'Weekly · Sunday 08:00 KST'}</div>
  <h1>{title}</h1>
+ <p class="news-schedule">{lang === 'ko' ? '매주 일요일 오전 8시 (한국 시간)' : 'Weekly · Sunday 08:00 KST'}</p>
  <p class="lead">{description}</p>
  <p class="news-selection">{lang==='ko'?'일요일 오전 8시에 자료 조사를 시작합니다. 검증과 배포가 끝난 뒤 업데이트되므로 실제 게시 시각은 달라질 수 있습니다.':'Research starts Sunday at 08:00 KST. Publication follows verification and deployment; the actual update time may vary.'}</p>
  <div class="news-issue">
   <p>{lang === 'ko' ? '업데이트' : 'Updated'}: <time datetime={issue.updatedAt}>{updatedDate}</time></p>
-  <p>{lang === 'ko' ? '소식 선정 기간' : 'Coverage'}: <time datetime={issue.windowStart}>{issue.windowStart}</time> – <time datetime={issue.windowEnd}>{issue.windowEnd}</time></p>
+  <p>{lang === 'ko' ? '소식 선정 기간' : 'Coverage'}: <time datetime={issue.windowStart}>{issue.windowStart}</time> {lang==='ko'?'부터':'to'} <time datetime={issue.windowEnd}>{issue.windowEnd}</time></p>
   <p>{lang === 'ko' ? '업데이트·선정 기간: 한국 시간 (Asia/Seoul). 원문 게시일은 출처의 날짜를 따릅니다.' : 'Update and coverage use Asia/Seoul (KST). Publication dates follow the source.'}</p>
  </div>
  <p class="news-selection">{lang === 'ko'
@@ -38,29 +38,15 @@ const headings = issue.stories.map(story => ({ depth: 2, slug: story.id, text: s
   : 'We select practical releases and learning resources published or updated this week—not corporate headlines or policy debates. This is an editorial selection, not an objective ranking. We only describe a tool as trending when dated adoption evidence supports it. Suggested experiments below are editorial advice.'}</p>
  <div class="news-stories prose">
   {issue.stories.map((story, index) => <article id={story.id} class="news-story" aria-labelledby={`${story.id}-title`}>
-   <p class="news-published">{lang === 'ko' ? '원문 게시일' : 'Originally published'} · <time datetime={story.publishedAt}>{story.publishedAt}</time></p>
+   <p class="news-published">{lang === 'ko' ? '원문 게시일' : 'Originally published'} / <time datetime={story.publishedAt}>{story.publishedAt}</time></p>
    <h2 id={`${story.id}-title`}>{story[lang].title}</h2>
    <p>{story[lang].summary}</p>
-   <p class="news-source"><a href={story.source.url}>[{index + 1}] {story.source.name}</a> <span>· {lang === 'ko' ? '원문 읽기' : 'Read the original'}</span></p>
+   <p class="news-source"><a href={story.source.url}>[{index + 1}] {story.source.name}</a> <span>{lang === 'ko' ? '원문 읽기' : 'Read the original'}</span></p>
    <p class="news-perspective"><strong>{lang === 'ko' ? '편집자 해설 — 이렇게 활용해 보세요' : 'Editorial perspective — try it in practice'}</strong><br/>{story[lang].whyItMatters}</p>
    <nav class="story-lessons" aria-label={lang==='ko'?'이 소식을 이해하는 데 필요한 강의':'Understand this story'}>
     <h3>{lang==='ko'?'이 소식을 이해하는 데 필요한 강의':'Understand this story'}</h3>
-    <ul>{related.get(story.id)?.map(lesson=><li><a href={lesson.href}>{lesson.title} →</a></li>)}</ul>
+    <ul>{related.get(story.id)?.map(lesson=><li><a href={lesson.href}>{lesson.title}<span aria-hidden="true">↗</span></a></li>)}</ul>
    </nav>
   </article>)}
  </div>
 </Book>
-
-<style>
- .news-issue { color: var(--muted); font-size: 13px; border-block: 1px solid var(--line); padding: 16px 0; margin-bottom: 24px; }
- .news-issue p { margin: 0; }
- .news-selection { color: var(--muted); font-size: 14px; line-height: 1.8; }
- .news-story { padding: 30px 0 12px; border-top: 1px solid var(--line); scroll-margin-top: 30px; }
- .news-story h2 { margin-top: 0; }
- .news-published, .news-source { font-family: inherit; font-size: 13px; color: var(--muted); }
- .news-published { margin-bottom: 12px; }
- .news-source { margin-top: -8px; }
- .news-perspective { border-left: 2px solid var(--line); padding-left: 18px; }
- .news-perspective strong { font-size: 13px; color: var(--accent); }
- @media(max-width:760px) { .news-story { scroll-margin-top: 80px; } }
-</style>

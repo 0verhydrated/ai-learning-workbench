@@ -66,3 +66,19 @@ Select **GitHub Actions** as the repository's Pages source. Pushes to `main` run
 Only the deploy job receives Pages write and OIDC permissions. Generated output, dependencies, local environment files, and private-key files are ignored. Never add real secrets to Markdown examples or client code. The Google Fonts stylesheet is an optional external request; local serif/sans fallbacks are defined.
 
 A successful workflow does not replace checking the live homepage, chapter navigation, CSS loading, and a mobile viewport. To roll back, revert the faulty commit and push the revert to `main`.
+
+## Interface and demonstrations
+
+The shared design system lives in `src/styles/tokens.css` and `design.md`. Light and dark themes follow the operating system until a reader chooses a mode; that choice is stored locally and applies across pages. A storage-disabled browser can still switch modes for the current page.
+
+The homepage's MCP, Skills, Tools, and Markdown examples are local walkthroughs. Each run advances through the procedure, and the final step highlights the sample result. They do not call a model, connect an account, send a report, or install a server. Without JavaScript, all examples and course links remain readable.
+
+Browser checks cover walkthroughs, keyboard operation, responsive layouts, bilingual navigation, no-JavaScript reading, and theme persistence:
+
+```sh
+npx playwright install chromium
+npm run build
+npm run test:ui
+```
+
+Set `CHROME_PATH` to an existing Chromium executable to use it instead of Playwright's bundled browser. Browser tests serve the production build locally on port 4322.

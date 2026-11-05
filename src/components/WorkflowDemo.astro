@@ -1,0 +1,51 @@
+---
+import type {Language} from '../i18n';
+interface Props {lang:Language;}
+const {lang}=Astro.props; const ko=lang==='ko';
+const base=import.meta.env.BASE_URL.replace(/\/$/,'')+(ko?'/ko':'');
+const examples=[
+ {id:'mcp',label:'MCP',title:ko?'AI에 필요한 자료 연결하기':'Give AI the right connections',prompt:ko?'문서를 검색하고 CSV 내보내기 제한을 알려줘.':'Search the docs. What is the CSV export limit?',file:'search_docs',code:'{\n  "query": "CSV export limit",\n  "limit": 3\n}',steps:ko?['도구 검색: search_docs','읽기 전용 문서 검색','문서 ID와 함께 결과 반환']:['Discover search_docs','Search read-only documentation','Return a passage with its source'],result:ko?'CSV 내보내기는 최대 100행을 지원합니다. [release-4/export]':'CSV export supports up to 100 rows. [release-4/export]',lesson:'02-mcp',link:ko?'MCP 이해하기':'Understand MCP'},
+ {id:'skills',label:ko?'스킬':'Skills',title:ko?'반복 작업을 절차로 만들기':'Teach a repeatable way to work',prompt:ko?'작업 기록으로 주간 보고서 초안을 만들어줘.':'Turn these task records into a weekly report draft.',file:'weekly-report/SKILL.md',code:'---\nname: weekly-report\ndescription: Draft from cited task records.\n---\n1. Check the reporting interval.\n2. Group completed work and blockers.\n3. Cite record IDs. Return a draft.',steps:ko?['관련 SKILL.md 읽기','기록을 분류하고 출처 연결','전송하지 않고 초안 반환']:['Load the relevant SKILL.md','Group records and attach evidence','Return a draft without sending'],result:ko?'완료: 내보내기 수정 [TASK-12]. 차단됨: 접근 검토 [TASK-14].':'Completed: export fix [TASK-12]. Blocked: access review [TASK-14].',lesson:'03-skills',link:ko?'스킬 만들기':'Build a skill'},
+ {id:'tools',label:ko?'도구':'Tools',title:ko?'요청에서 실행으로':'Turn a request into an action',prompt:ko?'문서에서 내보내기 기능을 찾아줘.':'Find the export feature in the documentation.',file:'Tool call',code:'search_docs({\n  query: "export feature",\n  limit: 3\n})',steps:ko?['작업에 맞는 도구 선택','정의된 스키마로 인수 전달','도구 결과를 읽고 답변']:['Choose a tool for the task','Pass arguments matching its schema','Read the result before answering'],result:ko?'문서 검색 결과를 바탕으로 답변합니다. 모델의 추측이 아닙니다.':'The answer can now cite retrieved documentation.',lesson:'01-agent-loops',link:ko?'도구 호출 살펴보기':'Explore tool calling'},
+ {id:'markdown',label:ko?'Markdown 파일':'.md files',title:ko?'프로젝트 맥락을 파일로':'Make project context reusable',prompt:ko?'변경하기 전에 이 프로젝트의 규칙을 읽어줘.':'Read the project instructions before making changes.',file:'AGENTS.md',code:'# Project instructions\n\n- Use the existing design tokens.\n- Preserve English and Korean routes.\n- Run the build before handoff.\n- Report checks that did not run.',steps:ko?['호스트가 지원하는 지침 읽기','작업에 프로젝트 규칙 적용','검증 결과와 한계 보고']:['Read host-supported instructions','Apply the project conventions','Report verification and limitations'],result:ko?'지침은 맥락을 제공합니다. 실행 능력과 권한은 호스트가 관리합니다.':'Instructions supply context. The host controls capabilities and permissions.',lesson:'04-identity-memory',link:ko?'맥락과 메모리 이해하기':'Understand context files'}
+];
+---
+<div class="workflow-demo" id="playground" data-demo>
+ <div class="demo-tabs" hidden aria-label={ko?'주제 선택':'Choose a concept'}>
+  {examples.map((example,i)=><button type="button" data-concept={example.id} aria-pressed={i===0?'true':'false'}>{example.label}</button>)}
+ </div>
+ {examples.map((example)=><section class="demo-panel" data-panel={example.id} aria-label={example.label}>
+  <div class="demo-input">
+   <h2>{example.title}</h2>
+   <p class="example-prompt">{example.prompt}</p>
+   <div class="demo-actions"><button type="button" class="run-example" hidden data-run={example.id} data-start={ko?'예제 실행':'Run example'} data-next={ko?'다음 단계':'Next step'} data-replay={ko?'다시 보기':'Replay example'}><span data-run-label>{ko?'예제 실행':'Run example'}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 5 7 7-7 7"/></svg></button><span>{ko?'로컬 데모. 실제 AI 호출 없음.':'Local demo. No live AI calls.'}</span></div>
+  </div>
+  <details class="demo-code" open><summary><span>{example.file}</span><span>{ko?'코드 보기':'Inspect code'}</span></summary><pre><code>{example.code}</code></pre></details>
+  <div class="demo-result" data-result><ol>{example.steps.map((step,index)=><li><span class="step-check" aria-hidden="true">{index+1}</span>{step}</li>)}</ol><p class="result-text">{example.result}</p><a class="text-link" href={`${base}/courses/agents-tools/${example.lesson}/`}>{example.link}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
+ </section>)}
+ <div class="demo-caption"><span>{ko?'작동 원리를 보여 주는 로컬 데모입니다. 실제 AI 호출이나 계정 연결은 없습니다.':'A local walkthrough, no live AI calls or connected accounts.'}</span><span class="demo-status" role="status" aria-live="polite" data-complete={ko?'예제 완료. 결과와 강의를 확인해 보세요.':'Example complete. Inspect the result or open the lesson.'}></span></div>
+</div>
+<script>
+ const demo=document.querySelector<HTMLElement>('[data-demo]');
+ if(demo){
+  const tabBar=demo.querySelector<HTMLElement>('.demo-tabs');if(tabBar)tabBar.hidden=false;
+  demo.querySelectorAll<HTMLButtonElement>('[data-run]').forEach(button=>button.hidden=false);
+  const tabs=Array.from(demo.querySelectorAll<HTMLButtonElement>('[data-concept]'));
+  const panels=Array.from(demo.querySelectorAll<HTMLElement>('[data-panel]'));
+  const status=demo.querySelector<HTMLElement>('[role="status"]');
+  const select=(id:string)=>{tabs.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.concept===id)));panels.forEach(panel=>{panel.hidden=panel.dataset.panel!==id;panel.classList.remove('is-complete');panel.dataset.step='0';panel.querySelectorAll('li').forEach(li=>li.classList.remove('step-done'));const label=panel.querySelector('[data-run-label]');const button=panel.querySelector<HTMLButtonElement>('[data-run]');if(label&&button)label.textContent=button.dataset.start??'';});if(status)status.textContent='';};
+  tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>select(tab.dataset.concept!));tab.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const next=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].focus();select(tabs[next].dataset.concept!);});});
+  demo.querySelectorAll<HTMLButtonElement>('[data-run]').forEach(button=>button.addEventListener('click',()=>{
+   const panel=panels.find(p=>p.dataset.panel===button.dataset.run);if(!panel)return;
+   const step=(Number(panel.dataset.step??0)%3)+1;panel.dataset.step=String(step);
+   const rows=Array.from(panel.querySelectorAll('li'));rows.forEach((row,index)=>row.classList.toggle('step-done',index<step));
+   panel.classList.toggle('is-complete',step===3);
+   const label=button.querySelector('[data-run-label]');if(label)label.textContent=(step===3?button.dataset.replay:button.dataset.next)??'';
+   if(status)status.textContent=step===3?status.dataset.complete??'':`${step}/3: ${rows[step-1]?.textContent?.replace(/^\d/, '').trim()}`;
+  }));
+  const compact=matchMedia('(max-width: 600px)');
+  const sizeCode=()=>demo.querySelectorAll<HTMLDetailsElement>('.demo-code').forEach(detail=>detail.open=!compact.matches);
+  compact.addEventListener('change',sizeCode);sizeCode();
+  select(tabs[0].dataset.concept!);
+ }
+</script>
