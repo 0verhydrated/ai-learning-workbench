@@ -1,0 +1,18 @@
+---
+import type {Language} from '../i18n';
+interface Props {lang:Language;}
+const {lang}=Astro.props;
+---
+<button type="button" class="icon-button theme-toggle" hidden aria-label={lang==='ko'?'어두운 테마로 전환':'Switch to dark mode'} data-light-label={lang==='ko'?'밝은 테마로 전환':'Switch to light mode'} data-dark-label={lang==='ko'?'어두운 테마로 전환':'Switch to dark mode'}>
+ <svg class="moon-icon" aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 13a9 9 0 0 1-9.8-9.8A9 9 0 1 0 20.8 13Z"/></svg>
+ <svg class="sun-icon" aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+</button>
+<script>
+ const themeButton=document.querySelector<HTMLButtonElement>('.theme-toggle');
+ if(themeButton)themeButton.hidden=false;
+ const preference=matchMedia('(prefers-color-scheme: dark)');
+ const isDark=()=> (document.documentElement.dataset.mode ?? (preference.matches?'dark':'light'))==='dark';
+ const sync=()=>{if(themeButton){themeButton.setAttribute('aria-label',(isDark()?themeButton.dataset.lightLabel:themeButton.dataset.darkLabel)??'Toggle theme');themeButton.setAttribute('aria-pressed',String(isDark()));}};
+ themeButton?.addEventListener('click',()=>{const mode=isDark()?'light':'dark';document.documentElement.dataset.mode=mode;try{localStorage.setItem('vibe-mode',mode);}catch{}sync();});
+ preference.addEventListener('change',sync); sync();
+</script>

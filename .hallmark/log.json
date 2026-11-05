@@ -1,0 +1,31 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "site",
+  "shape": "Workbench",
+  "theme": "furrow",
+  "axes": "light/grotesk-sans/warm",
+  "hero": "Counter",
+  "nav": "edge-aligned",
+  "footer": "mast",
+  "imagery": "functional learning examples",
+  "photos": [],
+  "entry": "src/layouts/Catalog.astro",
+  "fingerprint": "centered opening, inspectable workflow, code specimens, course catalog, learning routes, source-linked news",
+  "sections": [
+   "hero",
+   "courses",
+   "learning-path",
+   "practice",
+   "news",
+   "footer"
+  ],
+  "signature": "MCP, Skills, tools and Markdown walkthrough",
+  "waived": [
+   "49b"
+  ],
+  "prompt": "Completely revamp the bilingual practical AI learning website, reference Replit, include light and dark modes",
+  "date": "2026-11-05"
+ }
+]

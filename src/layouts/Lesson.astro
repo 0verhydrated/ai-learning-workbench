@@ -14,7 +14,7 @@ const base=import.meta.env.BASE_URL.replace(/\/$/,'')+(lang==='ko'?'/ko':'');
  <p class="lead">{lesson.data.description}</p>
  <article class="prose"><Content/></article>
  <nav class="pagination" aria-label={t.navigation}>
-  <a href={prev?`${base}/lessons/${prev.id}/`:`${base}/courses/vibe-coding/`}><small>{t.previous}</small>← {prev?.data.title??t.overview}</a>
-  {next?<a href={`${base}/lessons/${next.id}/`}><small>{t.next}</small>{next.data.title} →</a>:<a href={`${base}/courses/vibe-coding/#curriculum`}><small>{t.complete}</small>{t.return} →</a>}
+  <a href={prev?`${base}/lessons/${prev.id}/`:`${base}/courses/vibe-coding/`}><small>{t.previous}</small>{prev?.data.title??t.overview}</a>
+  {next?<a href={`${base}/lessons/${next.id}/`}><small>{t.next}</small>{next.data.title}</a>:<a href={`${base}/courses/vibe-coding/#curriculum`}><small>{t.complete}</small>{t.return}</a>}
  </nav>
 </Book>
