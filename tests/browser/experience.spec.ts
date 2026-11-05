@@ -80,7 +80,7 @@ test("mobile navigation, chapter menu, language selection, and disclosures work"
   await page.locator(".language-menu summary").click();
   await expect(page.locator('.language-menu [lang="en"]')).toHaveAttribute(
     "href",
-    "/vibe-coding-book/courses/agents-tools/02-mcp/",
+    "/ai-learning-workbench/courses/agents-tools/02-mcp/",
   );
 });
 
@@ -113,7 +113,7 @@ test("courses, language links, and all example material remain readable without 
     colorScheme: "light",
   });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:4322/vibe-coding-book/");
+  await page.goto("http://127.0.0.1:4322/ai-learning-workbench/");
   await expect(page.locator(".course-tile")).toHaveCount(4);
   await expect(page.locator("[data-panel]")).toHaveCount(4);
   for (const panel of await page.locator("[data-panel]").all())

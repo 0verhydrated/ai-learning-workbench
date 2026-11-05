@@ -2,7 +2,7 @@
 
 Practical courses on AI fundamentals, AI-assisted development, agents, and reliable automation. Each course includes explanations, worked examples, and exercises in English and Korean.
 
-Read online: [English](https://0verhydrated.github.io/vibe-coding-book/) · [한국어](https://0verhydrated.github.io/vibe-coding-book/ko/)
+Read online: [English](https://0verhydrated.github.io/ai-learning-workbench/) · [한국어](https://0verhydrated.github.io/ai-learning-workbench/ko/)
 
 ## Courses
 
@@ -22,7 +22,7 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:4321/vibe-coding-book/ . The repository base path also applies locally.
+Open http://localhost:4321/ai-learning-workbench/ . The repository base path also applies locally.
 
 ```sh
 npm run check
@@ -37,7 +37,7 @@ Edit lessons in `src/content/lessons/`. The content collection accepts `.md` and
 
 ## Languages
 
-English pages retain their original URLs. Korean pages live under `/vibe-coding-book/ko/`, with the same lesson IDs. The language menu links to the corresponding lesson rather than resetting to the introduction. Ordinary links work without JavaScript; no browser-language redirect or preference cookie is used.
+English pages retain their original URLs. Korean pages live under `/ai-learning-workbench/ko/`, with the same lesson IDs. The language menu links to the corresponding lesson rather than resetting to the introduction. Ordinary links work without JavaScript; no browser-language redirect or preference cookie is used.
 
 - English lessons: `src/content/lessons/`
 - Korean lessons: `src/content/korean/` (matching filenames and order)
@@ -56,8 +56,8 @@ See [the news update procedure](docs/news-update.md) for source verification, sa
 
 ## GitHub Pages
 
-Target repository: `0verhydrated/vibe-coding-book`.
-Expected URL: https://0verhydrated.github.io/vibe-coding-book/
+Target repository: `0verhydrated/ai-learning-workbench`.
+Expected URL: https://0verhydrated.github.io/ai-learning-workbench/
 
 `astro.config.mjs` sets the Pages origin and repository base. Internal page and asset links use `import.meta.env.BASE_URL`. If the repository name or owner changes, update the config and verify links again.
 

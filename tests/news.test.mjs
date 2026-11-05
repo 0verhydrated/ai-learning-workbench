@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 
-const base = '/vibe-coding-book';
+const base = '/ai-learning-workbench';
 const page = lang => {
  const path = `dist/${lang === 'ko' ? 'ko/' : ''}news/index.html`;
  assert.ok(existsSync(path), `${lang} news page must be built`);

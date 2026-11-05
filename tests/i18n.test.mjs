@@ -14,8 +14,8 @@ test('Korean introduction has Korean semantics and reciprocal language choices',
  assert.match(ko, /<html lang="ko">/);
  assert.match(ko, /바이브 코딩/);
  assert.match(ko, /aria-label="언어 선택"/);
- assert.match(ko, /href="\/vibe-coding-book\/"[^>]*lang="en"/);
- assert.match(en, /href="\/vibe-coding-book\/ko\/"[^>]*lang="ko"/);
+ assert.match(ko, /href="\/ai-learning-workbench\/"[^>]*lang="en"/);
+ assert.match(en, /href="\/ai-learning-workbench\/ko\/"[^>]*lang="ko"/);
  assert.match(ko, /hreflang="en"/);
  assert.match(en, /hreflang="ko"/);
 });
@@ -29,11 +29,11 @@ test('every lesson has a Korean counterpart and language switches preserve the l
   const ko = readFileSync(file, 'utf8');
   const en = readFileSync(`dist/lessons/${id}/index.html`, 'utf8');
   assert.match(ko, /<html lang="ko">/);
-  assert.ok(ko.includes(`href="/vibe-coding-book/lessons/${id}/" lang="en"`));
-  assert.ok(en.includes(`href="/vibe-coding-book/ko/lessons/${id}/" lang="ko"`));
+  assert.ok(ko.includes(`href="/ai-learning-workbench/lessons/${id}/" lang="en"`));
+  assert.ok(en.includes(`href="/ai-learning-workbench/ko/lessons/${id}/" lang="ko"`));
   assert.match(ko, /aria-label="강의 목차"/);
   const pagination = ko.match(/<nav class="pagination"[\s\S]*?<\/nav>/)?.[0];
   assert.ok(pagination, 'Korean lesson pagination exists');
-  for (const [,href] of pagination.matchAll(/href="([^"]+)"/g)) assert.ok(href.startsWith('/vibe-coding-book/ko/'));
+  for (const [,href] of pagination.matchAll(/href="([^"]+)"/g)) assert.ok(href.startsWith('/ai-learning-workbench/ko/'));
  }
 });

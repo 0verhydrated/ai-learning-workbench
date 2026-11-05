@@ -13,13 +13,13 @@ const mime = {
 createServer(async (req, res) => {
   try {
     const url = new URL(req.url, "http://localhost");
-    if (!url.pathname.startsWith("/vibe-coding-book/")) {
+    if (!url.pathname.startsWith("/ai-learning-workbench/")) {
       res.writeHead(404).end();
       return;
     }
     let path = resolve(
       root,
-      decodeURIComponent(url.pathname.slice("/vibe-coding-book/".length)) ||
+      decodeURIComponent(url.pathname.slice("/ai-learning-workbench/".length)) ||
         "index.html",
     );
     if (path !== root && !path.startsWith(root + sep)) {

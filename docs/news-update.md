@@ -30,7 +30,7 @@ The source link beside each summary provides attribution. `whyItMatters` is expl
 ## Safe publication
 
 - Load the GitHub and grounded-citations skills; check authentication without exposing tokens.
-- Verify origin is `https://github.com/0verhydrated/vibe-coding-book.git`. Fetch `origin/main` without changing the user's working branch.
+- Verify origin is `https://github.com/0verhydrated/ai-learning-workbench.git`. Fetch `origin/main` without changing the user's working branch.
 - Work in a disposable detached Git worktree based on `origin/main`, under the active profile's scratch directory. Never reset, stash, clean, or commit the user's working tree.
 - Edit news data and, only if needed, add bilingual lessons in `src/content/academy/{en,ko}/<course>/`. New lessons need definitions, meaningful examples, limitations, exercises/solutions, primary sources, and selective bold emphasis. Verify executable examples. Prefer existing courses; a new course needs a coherent learning goal, prerequisites and outcomes, with minimal additive registration in `src/courses.ts` and `src/content.config.ts`. Preserve existing IDs and URLs. Keep research notes outside the repository.
 - Run `npm ci`, `npm run check`, `npm run build`, `npm test`, and `git diff --check` in that worktree. Inspect the generated English and Korean news pages. Do not weaken failing checks to publish.

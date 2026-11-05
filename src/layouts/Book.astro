@@ -42,7 +42,7 @@ const koUrl = `${base}/ko/${pagePath}`;
    <a href={link('')+'#curriculum'} aria-current={section==='catalog'?'page':undefined}>{lang==='ko'?'과정':'Courses'}</a>
    <a href={link('')+'#playground'}>{lang==='ko'?'직접 해보기':'Playground'}</a>
    <a href={link('news/')}>{newsTitle}</a>
-   <a href="https://github.com/0verhydrated/vibe-coding-book">GitHub</a>
+   <a href="https://github.com/0verhydrated/ai-learning-workbench">GitHub</a>
   </nav>
   <div class="nav-controls">
    <details class="language-menu">
@@ -57,7 +57,7 @@ const koUrl = `${base}/ko/${pagePath}`;
   </div>
  </div>
  <nav id="mobile-nav" class="mobile-nav" aria-label={lang==='ko'?'모바일 메뉴':'Mobile navigation'} hidden>
-  <a href={link('')+'#curriculum'}>{catalogTitle}</a><a href={link('')+'#playground'}>{lang==='ko'?'직접 해보기':'Playground'}</a><a href={link('news/')}>{newsTitle}</a><a href="https://github.com/0verhydrated/vibe-coding-book">GitHub</a>
+  <a href={link('')+'#curriculum'}>{catalogTitle}</a><a href={link('')+'#playground'}>{lang==='ko'?'직접 해보기':'Playground'}</a><a href={link('news/')}>{newsTitle}</a><a href="https://github.com/0verhydrated/ai-learning-workbench">GitHub</a>
  </nav>
 </header>
 <noscript><nav class="no-script-nav" aria-label={t.courseChapters}>{courseIds.map(id=><a href={link(`courses/${id}/`)}>{courses[id][lang].title}</a>)}<a href={link('news/')}>{newsTitle}</a></nav></noscript>
@@ -94,7 +94,7 @@ const koUrl = `${base}/ko/${pagePath}`;
 </div>
 </>}
 {section==='catalog' && <main id="main" class="landing-main" tabindex="-1"><slot/></main>}
-{section==='catalog' && <footer class="landing-footer container"><a class="wordmark" href={link('')}><span class="wordmark-symbol" aria-hidden="true">[v]</span><span>{t.book}</span></a><p>{lang==='ko'?'직접 만들며, 이해하며 배우세요.':'Learn it. Build it. Understand it.'}</p><nav aria-label={lang==='ko'?'하단 메뉴':'Footer'}><a href={link('')+'#curriculum'}>{catalogTitle}</a><a href={link('news/')}>{newsTitle}</a><a href="https://github.com/0verhydrated/vibe-coding-book">GitHub</a></nav><small>{lang==='ko'?'영어와 한국어로 배우는 실용적인 AI 안내서.':'A practical AI field guide. In English and Korean.'}</small></footer>}
+{section==='catalog' && <footer class="landing-footer container"><a class="wordmark" href={link('')}><span class="wordmark-symbol" aria-hidden="true">[v]</span><span>{t.book}</span></a><p>{lang==='ko'?'직접 만들며, 이해하며 배우세요.':'Learn it. Build it. Understand it.'}</p><nav aria-label={lang==='ko'?'하단 메뉴':'Footer'}><a href={link('')+'#curriculum'}>{catalogTitle}</a><a href={link('news/')}>{newsTitle}</a><a href="https://github.com/0verhydrated/ai-learning-workbench">GitHub</a></nav><small>{lang==='ko'?'영어와 한국어로 배우는 실용적인 AI 안내서.':'A practical AI field guide. In English and Korean.'}</small></footer>}
 <script>
 const siteToggle = document.querySelector<HTMLButtonElement>('#site-menu-toggle');
 const mobileNav = document.querySelector<HTMLElement>('#mobile-nav');

@@ -19,8 +19,8 @@ test('all built internal links and assets resolve under the Pages repository pat
   const html = readFileSync(file, 'utf8');
   for (const [,url] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
    if (!url.startsWith('/')) continue;
-   assert.ok(url.startsWith('/vibe-coding-book/'), `${file}: wrong base ${url}`);
-   const path = url.split(/[?#]/)[0].replace('/vibe-coding-book/', '');
+   assert.ok(url.startsWith('/ai-learning-workbench/'), `${file}: wrong base ${url}`);
+   const path = url.split(/[?#]/)[0].replace('/ai-learning-workbench/', '');
    const target = join('dist', path, path.endsWith('/') || !path ? 'index.html' : '');
    assert.ok(existsSync(target), `${file}: missing ${url}`);
   }

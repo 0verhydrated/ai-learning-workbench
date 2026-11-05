@@ -14,7 +14,7 @@ test('news replaces the journey note and each story offers localized prerequisit
    const article=page.match(new RegExp(`<article[^>]*id="${story.id}"[^>]*>[\\s\\S]*?</article>`))[0];
    for(const ref of story.lessons){
     const route=ref.course==='vibe-coding'?`lessons/${ref.id}/`:`courses/${ref.course}/${ref.id}/`;
-    assert.ok(article.includes(`href="/vibe-coding-book/${prefix}${route}"`));
+    assert.ok(article.includes(`href="/ai-learning-workbench/${prefix}${route}"`));
     assert.ok(readFileSync(`dist/${prefix}${route}index.html`,'utf8').includes('<h1'));
    }
   }
